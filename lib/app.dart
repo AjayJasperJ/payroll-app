@@ -8,13 +8,13 @@ payroll_light() {
   return ThemeData(
     fontFamily: 'general_sans',
     colorScheme: ColorScheme.light(
-      surface: AppColors.background,
+      surface: Colors.white,
       onSurface: Colors.black,
       primary: AppColors.primary,
       onPrimary: Colors.white,
       primaryContainer: AppColors.container,
       onPrimaryContainer: Colors.black,
-      secondary: AppColors.container,
+      secondary: AppColors.inputcolor,
       onSecondary: Colors.black,
       error: Colors.red,
       onError: Colors.white,

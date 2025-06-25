@@ -45,6 +45,7 @@ class AuthWidget {
     required Color color,
     required Widget child,
     required Widget buttonwidget,
+    void Function()? onFullyExpanded,
   }) {
     return _SlidableCurtainWidget(
       buttonwidget: buttonwidget,
@@ -53,6 +54,7 @@ class AuthWidget {
       minHeightRatio: .2,
       maxHeightRatio: 1,
       circleRadius: 10,
+      onFullyExpanded: onFullyExpanded,
       child: child,
     );
   }
@@ -114,6 +116,7 @@ class _SlidableCurtainWidget extends StatefulWidget {
   final double minHeightRatio; // 0.0 to 1.0
   final double maxHeightRatio; // 0.0 to 1.0
   final double circleRadius;
+  final void Function()? onFullyExpanded;
 
   const _SlidableCurtainWidget({
     required this.color,
@@ -123,6 +126,7 @@ class _SlidableCurtainWidget extends StatefulWidget {
     required this.minHeightRatio,
     required this.maxHeightRatio,
     required this.circleRadius,
+    this.onFullyExpanded,
   });
 
   @override
@@ -132,8 +136,9 @@ class _SlidableCurtainWidget extends StatefulWidget {
 class __SlidableCurtainWidgetState extends State<_SlidableCurtainWidget>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
-  bool _showDemoScreen = false;
+  final bool _showDemoScreen = false;
   double _opacity = 1.0;
+  bool _hasCalledFullyExpanded = false;
 
   @override
   void initState() {
@@ -149,23 +154,14 @@ class __SlidableCurtainWidgetState extends State<_SlidableCurtainWidget>
   }
 
   void _handleCurtainProgress() {
-    if (_controller.value >= 0.999 && !_showDemoScreen) {
+    if (_controller.value >= 0.999 && !_hasCalledFullyExpanded) {
+      _hasCalledFullyExpanded = true;
+      if (widget.onFullyExpanded != null) widget.onFullyExpanded!();
       setState(() {
         _opacity = 0.0;
       });
-      Future.delayed(const Duration(milliseconds: 350), () {
-        if (mounted) {
-          setState(() {
-            _showDemoScreen = true;
-          });
-        }
-      });
-    } else if (_controller.value < 0.999 && _showDemoScreen) {
-      setState(() {
-        _showDemoScreen = false;
-        _opacity = 1.0;
-      });
-    } else if (_controller.value < 0.999 && _opacity == 0.0) {
+    } else if (_controller.value < 0.999) {
+      _hasCalledFullyExpanded = false;
       setState(() {
         _opacity = 1.0;
       });
@@ -218,7 +214,7 @@ class __SlidableCurtainWidgetState extends State<_SlidableCurtainWidget>
         AnimatedOpacity(
           opacity: _showDemoScreen ? 1.0 : 0.0,
           duration: const Duration(milliseconds: 350),
-          child: _showDemoScreen ? demoscreen() : const SizedBox.shrink(),
+          child: _showDemoScreen ? DemoScreen() : const SizedBox.shrink(),
         ),
         AnimatedOpacity(
           opacity: _opacity,

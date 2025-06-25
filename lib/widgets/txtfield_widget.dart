@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:payroll_hr/app.dart';
+import 'package:payroll_hr/core/constants/colors.dart';
+import 'package:payroll_hr/core/constants/sizes.dart';
 
 enum Font {
   bold(FontWeight.w700),
@@ -147,87 +149,49 @@ class _txtfieldState extends State<txtfield> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        TextFormField(
-          obscureText: widget.hidepass ?? false,
-          onTap: widget.onTap,
-          controller: _controller,
-          focusNode: _focusNode,
-          textInputAction:
-              widget.textInputAction ??
-              (widget.nextFocusNode != null
-                  ? TextInputAction.next
-                  : TextInputAction.done),
-          onFieldSubmitted: _handleSubmitted,
-          validator: _validator,
-          readOnly: widget.readonly ?? false,
-          inputFormatters: widget.inputformat,
-          keyboardType: widget.keyboardtype,
-          decoration: InputDecoration(
-            prefixIcon: !(widget.isPrefix ?? false)
-                ? Container(
-                    margin: EdgeInsets.only(
-                      left: displaysize.height * .025,
-                      right: displaysize.height * .01,
-                    ),
-                    height: displaysize.height * .025,
-                    width: displaysize.height * .025,
-                    child: widget.prefixIcon,
-                  )
-                : SizedBox(
-                    width: displaysize.height * .13,
-                    child: Center(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: displaysize.height * .015,
-                        ),
-                        child: widget.prefixIcon,
-                      ),
-                    ),
-                  ),
-            suffixIcon: widget.suffixIcon,
-            hintText: widget.hintText,
-            hintStyle: TextStyle(
-              color: Colors.blueAccent,
-              fontWeight: Font.medium.weight,
-              wordSpacing: 2,
-              fontSize: displaysize.height * .016,
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(displaysize.width / 4),
-              borderSide: BorderSide(
-                color: _hasError
-                    ? Theme.of(context).colorScheme.error
-                    : Theme.of(context).colorScheme.onSurface,
-                width: 1.5,
-              ),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(displaysize.width / 4),
-              borderSide: BorderSide(
-                color: _hasError
-                    ? Theme.of(context).colorScheme.error
-                    : Theme.of(context).colorScheme.onSecondary,
-                width: 1,
-              ),
-            ),
-          ),
+    return TextFormField(
+      obscureText: widget.hidepass ?? false,
+      onTap: widget.onTap,
+      controller: _controller,
+      focusNode: _focusNode,
+      textInputAction:
+          widget.textInputAction ??
+          (widget.nextFocusNode != null
+              ? TextInputAction.next
+              : TextInputAction.done),
+      onFieldSubmitted: _handleSubmitted,
+      validator: _validator,
+      readOnly: widget.readonly ?? false,
+      inputFormatters: widget.inputformat,
+      keyboardType: widget.keyboardtype,
+      decoration: InputDecoration(
+        fillColor: Theme.of(context).colorScheme.secondary,
+        filled: true,
+        suffixIcon: widget.suffixIcon,
+        hintText: widget.hintText,
+        hintStyle: TextStyle(
+          wordSpacing: 2,
+          fontSize: AppSizes.titleLarge(context),
+          fontWeight: Font.medium.weight,
+          color: Colors.grey,
         ),
-        if (_hasError && _hasSubmitted)
-          Padding(
-            padding: const EdgeInsets.only(top: 4, left: 12),
-            child: Text(
-              widget.validator!(_controller.text) ?? '',
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: theme.colorScheme.error,
-              ),
-            ),
-          ),
-      ],
+        hoverColor: AppColors.container.withValues(alpha: .2),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(displaysize.width * .03),
+          borderSide: _hasError
+              ? BorderSide(color: Theme.of(context).colorScheme.error, width: 1)
+              : BorderSide.none,
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(displaysize.width * .03),
+          borderSide: _hasError
+              ? BorderSide(
+                  color: Theme.of(context).colorScheme.error,
+                  width: 1.5,
+                )
+              : BorderSide.none,
+        ),
+      ),
     );
   }
 

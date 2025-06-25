@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:payroll_hr/app.dart';
 
-class ButtonstyleWidget {
-  ButtonStyle elevated_filled_apptheme(context) {
+class Bstyle {
+  static ButtonStyle elevated_filled_apptheme(context) {
     return ButtonStyle(
       // splashFactory: InkSplash.splashFactory,
       elevation: WidgetStatePropertyAll(0),
+      shape: WidgetStatePropertyAll(
+        RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(displaysize.width * .03),
+        ),
+      ),
       backgroundColor: WidgetStatePropertyAll(
         Theme.of(context).colorScheme.primary,
       ),
@@ -21,28 +26,25 @@ class ButtonstyleWidget {
     );
   }
 
-  ButtonStyle elevated_boardered_apptheme(context) {
+  static ButtonStyle elevated_boardered_apptheme(context) {
     return ButtonStyle(
       shape: WidgetStatePropertyAll(
         RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(displaysize.width / 4),
-          side: BorderSide(
-            color: Theme.of(context).colorScheme.primary,
-            width: 1.3,
-          ),
+          borderRadius: BorderRadius.circular(displaysize.width * .03),
+          side: BorderSide(color: Colors.black, width: 1.3),
         ),
       ),
       // splashFactory: InkSplash.splashFactory,
       elevation: WidgetStatePropertyAll(0),
       backgroundColor: WidgetStatePropertyAll(
-        Theme.of(context).colorScheme.onPrimary,
+        Theme.of(context).colorScheme.primaryContainer,
       ),
     ).copyWith(
       overlayColor: WidgetStateProperty.resolveWith<Color?>((
         Set<WidgetState> states,
       ) {
         if (states.contains(WidgetState.pressed)) {
-          return Theme.of(context).colorScheme.primary.withValues(alpha: .2);
+          return Colors.grey.withValues(alpha: .1);
         } else if (states.contains(WidgetState.hovered)) {
           return Theme.of(context).colorScheme.onPrimary.withValues(alpha: .0);
         }
@@ -55,7 +57,7 @@ class ButtonstyleWidget {
     return ButtonStyle(
       shape: WidgetStatePropertyAll(
         RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(displaysize.width / 4),
+          borderRadius: BorderRadius.circular(displaysize.width * .03),
           side: BorderSide(
             color: Theme.of(context).colorScheme.secondary,
             width: 1,
