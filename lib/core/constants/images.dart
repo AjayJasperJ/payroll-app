@@ -1,4 +1,5 @@
-class AppImages {
-  static const logo = 'assets/images/logo.png';
-  // Add more image paths as needed
+class Appimages {
+  static String applogo = 'assets/images/Logo.png';
 }
+
+class Appicons {}
