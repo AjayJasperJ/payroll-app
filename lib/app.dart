@@ -26,6 +26,7 @@ ThemeData payroll_light() {
     colorScheme: ColorScheme.light(
       surface: AppColors.background,
       onSurface: Colors.black,
+      surfaceContainer: Colors.amber,
       primary: AppColors.primary,
       onPrimary: Colors.white,
       primaryContainer: AppColors.container,
@@ -33,7 +34,7 @@ ThemeData payroll_light() {
     ),
     cardColor: AppColors.container,
   );
-}//ok
+} //ok
 
 ThemeData payroll_dark() {
   return ThemeData(

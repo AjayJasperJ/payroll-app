@@ -22,31 +22,63 @@ class AuthScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Align(
-        alignment: Alignment.topCenter,
-        child: ClipPath(
-          clipper: RectangleCircleBottomClipper(),
-          child: Container(
-            padding: EdgeInsets.only(top: displaysize.height * .06),
-            height: displaysize.height * .4,
-            width: displaysize.width,
-            color: AppColors.primary,
-            child: Column(
-              children: [
-                Image.asset(
-                  Appimages.applogo,
-                  height: displaysize.height * .08,
-                ),
-                Txt(
-                  'Explore',
-                  align: TextAlign.center,
-                  size: AppSizes.headlineMedium(context),
-                  color: Colors.white,
-                ),
-              ],
+      body: Column(
+        children: [
+          ClipPath(
+            clipper: RectangleCircleBottomClipper(),
+            child: Container(
+              padding: EdgeInsets.only(top: displaysize.height * .06),
+              height: displaysize.height * .35,
+              width: displaysize.width,
+              color: AppColors.primary,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Image.asset(
+                    Appimages.applogo,
+                    height: displaysize.height * .08,
+                  ),
+                  Column(
+                    children: [
+                      Txt(
+                        'Explore',
+                        font: Font.medium,
+                        align: TextAlign.center,
+                        size: AppSizes.headlineMedium(context),
+                        color: Colors.white,
+                      ),
+                      SizedBox(height: displaysize.height * .01),
+                      AuthWidget.upDownInfinite(
+                        offset: 10,
+                        child: Image.asset(
+                          Appicons.download,
+                          color: Colors.white,
+                          height: displaysize.height * .03,
+                        ),
+                      ),
+                      SizedBox(height: displaysize.height * .06),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
+          Txt(
+            'Welcome !',
+            font: Font.semiBold,
+            space: 1.5,
+            align: TextAlign.center,
+            size: AppSizes.displayMedium(context),
+          ),
+          Container(
+            width: displaysize.width * .85,
+            height: displaysize.height * .4,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(24),
+              color: AppColors.container,
+            ),
+          ),
+        ],
       ),
     );
   }
