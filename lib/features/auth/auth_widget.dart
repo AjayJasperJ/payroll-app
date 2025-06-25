@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:payroll_hr/app.dart';
+import 'package:payroll_hr/features/auth/auth_screen.dart';
 
 class AuthWidget {
   static Path rectanglecirclebottom(Size size) {
@@ -17,8 +18,43 @@ class AuthWidget {
     return path;
   }
 
+  static Path curtainFullEdge(Size size, double curtainTop) {
+    final path = Path();
+    // Start at top left
+    path.moveTo(0, 0);
+    // Left edge down to curtainTop
+    path.lineTo(0, curtainTop);
+    // Draw a smooth curve for the curtain edge
+    path.quadraticBezierTo(
+      size.width / 2,
+      curtainTop + 40, // control point below the curtainTop for a nice curve
+      size.width,
+      curtainTop,
+    );
+    // Right edge up to top right
+    path.lineTo(size.width, 0);
+    path.close();
+    return path;
+  }
+
   static Widget upDownInfinite({required Widget child, double offset = 20}) {
     return _UpDownInfinite(offset: offset, child: child);
+  }
+
+  static Widget SlidableCurtainWidget({
+    required Color color,
+    required Widget child,
+    required Widget buttonwidget,
+  }) {
+    return _SlidableCurtainWidget(
+      buttonwidget: buttonwidget,
+      color: color,
+      initialHeightRatio: 0.3,
+      minHeightRatio: .2,
+      maxHeightRatio: 1,
+      circleRadius: 10,
+      child: child,
+    );
   }
 }
 
@@ -67,5 +103,211 @@ class _UpDownInfiniteState extends State<_UpDownInfinite>
       },
       child: widget.child,
     );
+  }
+}
+
+class _SlidableCurtainWidget extends StatefulWidget {
+  final Color color;
+  final Widget? child;
+  final Widget? buttonwidget;
+  final double initialHeightRatio; // 0.0 to 1.0
+  final double minHeightRatio; // 0.0 to 1.0
+  final double maxHeightRatio; // 0.0 to 1.0
+  final double circleRadius;
+
+  const _SlidableCurtainWidget({
+    required this.color,
+    required this.child,
+    required this.buttonwidget,
+    required this.initialHeightRatio,
+    required this.minHeightRatio,
+    required this.maxHeightRatio,
+    required this.circleRadius,
+  });
+
+  @override
+  State<_SlidableCurtainWidget> createState() => __SlidableCurtainWidgetState();
+}
+
+class __SlidableCurtainWidgetState extends State<_SlidableCurtainWidget>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  bool _showDemoScreen = false;
+  double _opacity = 1.0;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+      lowerBound: widget.minHeightRatio,
+      upperBound: widget.maxHeightRatio,
+      value: widget.initialHeightRatio,
+    );
+    _controller.addListener(_handleCurtainProgress);
+  }
+
+  void _handleCurtainProgress() {
+    if (_controller.value >= 0.999 && !_showDemoScreen) {
+      setState(() {
+        _opacity = 0.0;
+      });
+      Future.delayed(const Duration(milliseconds: 350), () {
+        if (mounted) {
+          setState(() {
+            _showDemoScreen = true;
+          });
+        }
+      });
+    } else if (_controller.value < 0.999 && _showDemoScreen) {
+      setState(() {
+        _showDemoScreen = false;
+        _opacity = 1.0;
+      });
+    } else if (_controller.value < 0.999 && _opacity == 0.0) {
+      setState(() {
+        _opacity = 1.0;
+      });
+    }
+  }
+
+  void _expandCurtain() {
+    _controller.animateTo(widget.maxHeightRatio, curve: Curves.easeInOut);
+  }
+
+  void _collapseCurtain() {
+    _controller.animateTo(widget.initialHeightRatio, curve: Curves.easeInOut);
+  }
+
+  void _onDragUpdate(DragUpdateDetails details, double screenHeight) {
+    final delta = details.primaryDelta! / screenHeight;
+    final newValue = (_controller.value + delta).clamp(
+      widget.minHeightRatio,
+      widget.maxHeightRatio,
+    );
+    _controller.value = newValue;
+  }
+
+  void _onHorizontalDragUpdate(DragUpdateDetails details) {
+    if (details.primaryDelta != null && details.primaryDelta! < -10) {
+      _collapseCurtain();
+    }
+  }
+
+  void _onVerticalDragEnd(DragEndDetails details, double screenHeight) {
+    if (_controller.value >= 0.6) {
+      _expandCurtain();
+    } else {
+      _collapseCurtain();
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.removeListener(_handleCurtainProgress);
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    return Stack(
+      children: [
+        AnimatedOpacity(
+          opacity: _showDemoScreen ? 1.0 : 0.0,
+          duration: const Duration(milliseconds: 350),
+          child: _showDemoScreen ? demoscreen() : const SizedBox.shrink(),
+        ),
+        AnimatedOpacity(
+          opacity: _opacity,
+          duration: const Duration(milliseconds: 350),
+          child: AnimatedBuilder(
+            animation: _controller,
+            builder: (context, child) {
+              final curtainHeight = size.height * _controller.value;
+              return Stack(
+                children: [
+                  ClipPath(
+                    clipper: _ThreeSideRectOneCircleClipper(
+                      height: curtainHeight,
+                      circleRadius: widget.circleRadius,
+                    ),
+                    child: Container(
+                      width: size.width,
+                      height: curtainHeight,
+                      color: widget.color,
+                      child: widget.child,
+                    ),
+                  ),
+                  Positioned(
+                    left: 0,
+                    right: 0,
+                    bottom: widget.circleRadius * 3,
+                    child: GestureDetector(
+                      onVerticalDragUpdate: (details) =>
+                          _onDragUpdate(details, size.height),
+                      onHorizontalDragUpdate: _onHorizontalDragUpdate,
+                      onVerticalDragEnd: (details) =>
+                          _onVerticalDragEnd(details, size.height),
+                      onTap: _expandCurtain,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          if (widget.buttonwidget != null) widget.buttonwidget!,
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _ThreeSideRectOneCircleClipper extends CustomClipper<Path> {
+  final double height;
+  final double circleRadius;
+  _ThreeSideRectOneCircleClipper({
+    required this.height,
+    required this.circleRadius,
+  });
+
+  @override
+  Path getClip(Size size) {
+    final path = Path();
+    final isFullScreen = height >= displaysize.height;
+    path.moveTo(0, 0);
+    if (isFullScreen) {
+      // Rectangle when fully expanded
+      path.lineTo(0, size.height);
+      path.lineTo(size.width, size.height);
+      path.lineTo(size.width, 0);
+    } else {
+      // 3 straight sides, bottom is a perfect semicircle using quadraticBezierTo
+      final arcY = height - 150;
+      path.lineTo(0, arcY + 50);
+      path.quadraticBezierTo(
+        size.width / 2,
+        arcY + size.width / 2,
+        size.width,
+        arcY + 50,
+      );
+      path.lineTo(size.width, 0);
+    }
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(_ThreeSideRectOneCircleClipper oldClipper) {
+    return oldClipper.height != height ||
+        oldClipper.circleRadius != circleRadius;
   }
 }

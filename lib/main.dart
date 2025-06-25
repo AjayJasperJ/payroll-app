@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:payroll_hr/app.dart';
+import 'package:payroll_hr/features/auth/auth_screen.dart';
 import 'package:window_size/window_size.dart';
 import 'dart:io';
 
@@ -13,4 +14,20 @@ void main() async {
   }
 
   runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    displaysize = MediaQuery.of(context).size;
+    return MaterialApp(
+      title: 'Payroll HR',
+      themeMode: ThemeMode.light,
+      theme: payroll_light(),
+      darkTheme: payroll_dark(),
+      home: AuthScreen(),
+    );
+  }
 }

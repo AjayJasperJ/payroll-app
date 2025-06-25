@@ -7,3 +7,5 @@ class AppColors {
   //container,card,cirlcavatar etc
   static const inputcolor = Color.fromRGBO(240, 249, 255, 1); //textformfiled
 }
+
+

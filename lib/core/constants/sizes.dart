@@ -19,9 +19,9 @@ class AppSizes {
   static double titleLarge(BuildContext context) =>
       Theme.of(context).textTheme.titleLarge?.fontSize ?? 22;
   static double titleMedium(BuildContext context) =>
-      Theme.of(context).textTheme.titleMedium?.fontSize ?? 18;
+      Theme.of(context).textTheme.titleMedium?.fontSize ?? 20;
   static double titleSmall(BuildContext context) =>
-      Theme.of(context).textTheme.titleSmall?.fontSize ?? 16;
+      Theme.of(context).textTheme.titleSmall?.fontSize ?? 18;
 
   static double bodyLarge(BuildContext context) =>
       Theme.of(context).textTheme.bodyLarge?.fontSize ?? 16;

@@ -1,38 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:payroll_hr/features/auth/auth_screen.dart';
 import 'package:payroll_hr/core/constants/colors.dart';
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    displaysize = MediaQuery.of(context).size;
-    return MaterialApp(
-      title: 'Payroll HR',
-      themeMode: ThemeMode.light,
-      theme: payroll_light(),
-      darkTheme: payroll_dark(),
-      home: const AuthScreen(),
-    );
-  }
-}
-
 late Size displaysize;
+late ColorScheme cs;
 
-ThemeData payroll_light() {
+payroll_light() {
   return ThemeData(
     fontFamily: 'general_sans',
     colorScheme: ColorScheme.light(
       surface: AppColors.background,
       onSurface: Colors.black,
-      surfaceContainer: Colors.amber,
       primary: AppColors.primary,
       onPrimary: Colors.white,
       primaryContainer: AppColors.container,
       onPrimaryContainer: Colors.black,
+      secondary: AppColors.container,
+      onSecondary: Colors.black,
+      error: Colors.red,
+      onError: Colors.white,
     ),
-    cardColor: AppColors.container,
   );
 } //ok
 
@@ -41,20 +27,14 @@ ThemeData payroll_dark() {
     fontFamily: 'general_sans',
     colorScheme: ColorScheme.dark(
       primary: AppColors.primary,
-      surface: AppColors.container,
       onPrimary: Colors.white,
       onSurface: Colors.white,
+      primaryContainer: AppColors.container,
+      onPrimaryContainer: Colors.black,
       secondary: AppColors.container,
+      onSecondary: Colors.black,
+      error: Colors.red,
+      onError: Colors.white,
     ),
-    scaffoldBackgroundColor: AppColors.background,
-    inputDecorationTheme: InputDecorationTheme(
-      fillColor: AppColors.inputcolor,
-      filled: true,
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8),
-        borderSide: BorderSide.none,
-      ),
-    ),
-    cardColor: AppColors.container,
   );
 }
