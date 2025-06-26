@@ -16,4 +16,6 @@ class Appicons {
   static const String rightArrowDouble = 'assets/icons/right_arroe_double.png';
   static const String verifyPerson = 'assets/icons/verify_person.png';
   static const String wealth = 'assets/icons/wealth.png';
+  static const String hide = 'assets/icons/hide.png';
+  static const String reload = 'assets/icons/reload.png';
 }

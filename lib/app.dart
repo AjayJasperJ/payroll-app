@@ -6,7 +6,7 @@ late ColorScheme cs;
 
 payroll_light() {
   return ThemeData(
-    fontFamily: 'general_sans',
+    fontFamily: 'Roboto',
     colorScheme: ColorScheme.light(
       surface: Colors.white,
       onSurface: Colors.black,
@@ -24,7 +24,7 @@ payroll_light() {
 
 ThemeData payroll_dark() {
   return ThemeData(
-    fontFamily: 'general_sans',
+    fontFamily: 'Roboto',
     colorScheme: ColorScheme.dark(
       primary: AppColors.primary,
       onPrimary: Colors.white,
