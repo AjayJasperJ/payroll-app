@@ -1,6 +1,6 @@
-analyzer:
-  errors:
-    unused_field: ignore# # This file configures the analyzer, which statically analyzes Dart code to
+# analyzer:
+#   errors:
+#     unused_field: ignore ignore# # This file configures the analyzer, which statically analyzes Dart code to
 # # check for errors, warnings, and lints.
 # #
 # # The issues identified by the analyzer are surfaced in the UI of Dart-enabled
