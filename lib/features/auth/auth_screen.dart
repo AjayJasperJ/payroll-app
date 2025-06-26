@@ -32,6 +32,8 @@ class _AuthScreenState
   final RxBool _hideStackContent = false.obs;
   final RxBool _showDemoScreen = false.obs;
   final RxBool _forgotpassword = false.obs;
+  final RxBool _newpassword = false.obs;
+  final RxBool _newPasswordFadeIn = false.obs;
 
   void _onCurtainFullyExpanded() {
     _hideStackContent.value = true;
@@ -45,6 +47,33 @@ class _AuthScreenState
         }
       },
     );
+  }
+
+  @override
+  void didUpdateWidget(covariant AuthScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Not needed for this fix
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Not needed for this fix
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    ever(_newpassword, (val) {
+      if (val == true) {
+        _newPasswordFadeIn.value = false;
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _newPasswordFadeIn.value = true;
+        });
+      } else {
+        _newPasswordFadeIn.value = false;
+      }
+    });
   }
 
   @override
@@ -94,9 +123,11 @@ class _AuthScreenState
                                 width:
                                     displaysize.width *
                                     .85,
-                                height:
-                                    displaysize.height *
-                                    .45,
+                                height: _newpassword.value
+                                    ? displaysize.height *
+                                          .5
+                                    : displaysize.height *
+                                          .45,
                                 padding: EdgeInsets.symmetric(
                                   horizontal:
                                       displaysize.width *
@@ -116,128 +147,209 @@ class _AuthScreenState
                                 ),
                                 child: AnimatedSwitcher(
                                   duration: const Duration(
-                                    milliseconds: 350,
+                                    seconds: 1,
                                   ),
+                                  /* Set New Password Fade In  */
                                   child: _forgotpassword.value
-                                      ? Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          key: const ValueKey(
-                                            'forgot',
-                                          ),
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                GestureDetector(
-                                                  onTap: () {
-                                                    _forgotpassword.value = false;
-                                                  },
-                                                  child: SizedBox(
-                                                    height:
-                                                        displaysize.height *
-                                                        .04,
-                                                    width:
-                                                        displaysize.height *
-                                                        .04,
-                                                    child: txtfieldicon(
-                                                      context,
-                                                      Appicons.leftArrow,
-                                                    ),
+                                      ? Obx(
+                                          () => _newpassword.value
+                                              ? AnimatedOpacity(
+                                                  key: const ValueKey(
+                                                    'newpassword',
                                                   ),
-                                                ),
-                                                Txt(
-                                                  "OTP Verification",
-                                                  height: 0,
-                                                  size: AppSizes.headlineMedium(
-                                                    context,
+                                                  opacity: _newPasswordFadeIn.value
+                                                      ? 1.0
+                                                      : 0.0,
+                                                  duration: const Duration(
+                                                    seconds: 1,
                                                   ),
-                                                  font: Font.medium,
-                                                ),
-                                              ],
-                                            ),
-                                            Txt(
-                                              "Emp.ID : XXX",
-                                              size: AppSizes.headlineSmall(
-                                                context,
-                                              ),
-                                              font: Font.regular,
-                                            ),
-                                            Column(
-                                              children: [
-                                                txtotpfield(),
-                                                SizedBox(
-                                                  height:
-                                                      displaysize.height *
-                                                      .01,
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                  children: [
-                                                    Txt(
-                                                      '05:00',
-                                                      size: AppSizes.bodyMedium(
-                                                        context,
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    children: [
+                                                      Row(
+                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                        children: [
+                                                          GestureDetector(
+                                                            onTap: () {
+                                                              _newpassword.value = false;
+                                                            },
+                                                            child: SizedBox(
+                                                              height:
+                                                                  displaysize.height *
+                                                                  .04,
+                                                              width:
+                                                                  displaysize.height *
+                                                                  .04,
+                                                              child: Image.asset(
+                                                                Appicons.leftArrow,
+                                                                height:
+                                                                    displaysize.height *
+                                                                    .02,
+                                                            ),
+                                                          ),),
+                                                          Txt(
+                                                            "Reset Password",
+                                                            height: 0,
+                                                            size: AppSizes.headlineMedium(
+                                                              context,
+                                                            ),
+                                                            font: Font.regular,
+                                                          ),
+                                                        ],
                                                       ),
-                                                      font: Font.medium,
-                                                    ),
-                                                    Row(
-                                                      children: [
-                                                        Text.rich(
-                                                          TextSpan(
-                                                            children: [
-                                                              TextSpan(
-                                                                text: "Didn't got OTP ? ",
-                                                                style: TextStyle(
-                                                                  fontSize: AppSizes.bodyMedium(
-                                                                    context,
-                                                                  ),
-                                                                  fontWeight: Font.medium.weight,
-                                                                ),
-                                                              ),
-                                                              TextSpan(
-                                                                text: "Resend",
-                                                                style: TextStyle(
-                                                                  fontSize: AppSizes.bodyMedium(
-                                                                    context,
-                                                                  ),
-                                                                  fontWeight: Font.semiBold.weight,
-                                                                ),
-                                                              ),
-                                                            ],
+                                                      txtfield(
+                                                        hintText: "New Password",
+                                                      ),
+                                                      txtfield(
+                                                        hintText: "Confirm Password",
+                                                      ),
+                                                      Center(
+                                                        child: ElevatedButton(
+                                                          style: Bstyle.elevated_filled_apptheme(
+                                                            context,
+                                                          ),
+                                                          onPressed: () {
+                                                            _forgotpassword.value = false;
+                                                            _newpassword.value = false;
+                                                          },
+                                                          child: Txt(
+                                                            "Save Password",
+                                                            font: Font.semiBold,
+                                                            size: AppSizes.titleMedium(
+                                                              context,
+                                                            ),
+                                                            color: theme.colorScheme.onPrimary,
                                                           ),
                                                         ),
-                                                        SizedBox(
-                                                          width:
-                                                              displaysize.width *
-                                                              .02,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                )
+                                              /* If not new password, show OTP verification */
+                                              : Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  key: const ValueKey(
+                                                    'forgot',
+                                                  ),
+                                                  children: [
+                                                    Row(
+                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                      children: [
+                                                        GestureDetector(
+                                                          onTap: () {
+                                                            _forgotpassword.value = false;
+                                                          },
+                                                          child: SizedBox(
+                                                            height:
+                                                                displaysize.height *
+                                                                .04,
+                                                            width:
+                                                                displaysize.height *
+                                                                .04,
+                                                            child: txtfieldicon(
+                                                              context,
+                                                              Appicons.leftArrow,
+                                                            ),
+                                                          ),
                                                         ),
-                                                        txtfieldicon(
-                                                          context,
-                                                          Appicons.reload,
+                                                        Txt(
+                                                          "OTP Verification",
+                                                          height: 0,
+                                                          size: AppSizes.headlineMedium(
+                                                            context,
+                                                          ),
+                                                          font: Font.regular,
                                                         ),
                                                       ],
                                                     ),
+                                                    Txt(
+                                                      "Emp.ID : XXX",
+                                                      size: AppSizes.headlineSmall(
+                                                        context,
+                                                      ),
+                                                      font: Font.regular,
+                                                    ),
+                                                    Column(
+                                                      children: [
+                                                        txtotpfield(),
+                                                        SizedBox(
+                                                          height:
+                                                              displaysize.height *
+                                                              .01,
+                                                        ),
+                                                        Row(
+                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                          children: [
+                                                            Txt(
+                                                              '05:00',
+                                                              size: AppSizes.bodyMedium(
+                                                                context,
+                                                              ),
+                                                              font: Font.medium,
+                                                            ),
+                                                            Row(
+                                                              children: [
+                                                                Text.rich(
+                                                                  TextSpan(
+                                                                    children: [
+                                                                      TextSpan(
+                                                                        text: "Didn't got OTP ? ",
+                                                                        style: TextStyle(
+                                                                          fontSize: AppSizes.bodyMedium(
+                                                                            context,
+                                                                          ),
+                                                                          fontWeight: Font.medium.weight,
+                                                                        ),
+                                                                      ),
+                                                                      TextSpan(
+                                                                        text: "Resend",
+                                                                        style: TextStyle(
+                                                                          fontSize: AppSizes.bodyMedium(
+                                                                            context,
+                                                                          ),
+                                                                          fontWeight: Font.semiBold.weight,
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                                SizedBox(
+                                                                  width:
+                                                                      displaysize.width *
+                                                                      .02,
+                                                                ),
+                                                                txtfieldicon(
+                                                                  context,
+                                                                  Appicons.reload,
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    Center(
+                                                      child: SwipeToActionWidget(
+                                                        onSwipe: () {
+                                                          _newpassword.value = true;
+                                                        },
+                                                        label1: 'Swipe to confirm',
+                                                        label2: 'Verified',
+                                                        width:
+                                                            displaysize.width *
+                                                            .55,
+                                                        height:
+                                                            displaysize.height *
+                                                            .05,
+                                                        backgroundColor: theme.colorScheme.primary,
+                                                      ),
+                                                    ),
                                                   ],
                                                 ),
-                                              ],
-                                            ),
-                                            Center(
-                                              child: SwipeToActionWidget(
-                                                onSwipe: () {},
-                                                label1: 'Swipe to confirm',
-                                                label2: 'Verified',
-                                                width:
-                                                    displaysize.width *
-                                                    .55,
-                                                height:
-                                                    displaysize.height *
-                                                    .05,
-                                                backgroundColor: theme.colorScheme.primary,
-                                              ),
-                                            ),
-                                          ],
                                         )
+                                      /* If not new password, show login form */
                                       : Padding(
                                           padding: EdgeInsets.symmetric(
                                             vertical:
@@ -362,6 +474,7 @@ class _AuthScreenState
                         )
                       : SizedBox.shrink(),
                 ),
+                /* Animated slider Stack */
                 Obx(
                   () => !_showDemoScreen.value
                       ? Align(

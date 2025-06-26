@@ -41,7 +41,6 @@ class _SwipeToActionWidgetState
         > {
   late double _dragX;
   bool _completed = false;
-
   @override
   void initState() {
     super.initState();
