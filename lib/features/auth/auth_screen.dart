@@ -50,8 +50,12 @@ class _AuthScreenState
   }
 
   @override
-  void didUpdateWidget(covariant AuthScreen oldWidget) {
-    super.didUpdateWidget(oldWidget);
+  void didUpdateWidget(
+    covariant AuthScreen oldWidget,
+  ) {
+    super.didUpdateWidget(
+      oldWidget,
+    );
     // Not needed for this fix
   }
 
@@ -64,16 +68,26 @@ class _AuthScreenState
   @override
   void initState() {
     super.initState();
-    ever(_newpassword, (val) {
-      if (val == true) {
-        _newPasswordFadeIn.value = false;
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          _newPasswordFadeIn.value = true;
-        });
-      } else {
-        _newPasswordFadeIn.value = false;
-      }
-    });
+    ever(
+      _newpassword,
+      (
+        val,
+      ) {
+        if (val ==
+            true) {
+          _newPasswordFadeIn.value = false;
+          WidgetsBinding.instance.addPostFrameCallback(
+            (
+              _,
+            ) {
+              _newPasswordFadeIn.value = true;
+            },
+          );
+        } else {
+          _newPasswordFadeIn.value = false;
+        }
+      },
+    );
   }
 
   @override
@@ -174,20 +188,25 @@ class _AuthScreenState
                                                             onTap: () {
                                                               _newpassword.value = false;
                                                             },
-                                                            child: SizedBox(
+                                                            child: Container(
+                                                              color: Colors.transparent,
                                                               height:
                                                                   displaysize.height *
                                                                   .04,
                                                               width:
                                                                   displaysize.height *
                                                                   .04,
-                                                              child: Image.asset(
-                                                                Appicons.leftArrow,
-                                                                height:
-                                                                    displaysize.height *
-                                                                    .02,
+                                                              child: Align(
+                                                                alignment: Alignment.centerLeft,
+                                                                child: Image.asset(
+                                                                  Appicons.leftArrow,
+                                                                  height:
+                                                                      displaysize.height *
+                                                                      .02,
+                                                                ),
+                                                              ),
                                                             ),
-                                                          ),),
+                                                          ),
                                                           Txt(
                                                             "Reset Password",
                                                             height: 0,
@@ -198,28 +217,64 @@ class _AuthScreenState
                                                           ),
                                                         ],
                                                       ),
+                                                      Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: List.generate(
+                                                          3,
+                                                          (
+                                                            index,
+                                                          ) {
+                                                            List field_data = [
+                                                              {
+                                                                'title': 'Emp.ID : XXX',
+                                                              },
+                                                              {
+                                                                'title': 'Email ID : XXX@x.com',
+                                                              },
+                                                              {
+                                                                'title': 'Phone No : XXXXXXXXXX',
+                                                              },
+                                                            ];
+                                                            return Txt(
+                                                              field_data[index]['title'],
+                                                              size: AppSizes.titleLarge(
+                                                                context,
+                                                              ),
+                                                            );
+                                                          },
+                                                        ),
+                                                      ),
                                                       txtfield(
                                                         hintText: "New Password",
                                                       ),
-                                                      txtfield(
-                                                        hintText: "Confirm Password",
-                                                      ),
                                                       Center(
-                                                        child: ElevatedButton(
-                                                          style: Bstyle.elevated_filled_apptheme(
-                                                            context,
-                                                          ),
-                                                          onPressed: () {
-                                                            _forgotpassword.value = false;
-                                                            _newpassword.value = false;
-                                                          },
-                                                          child: Txt(
-                                                            "Save Password",
-                                                            font: Font.semiBold,
-                                                            size: AppSizes.titleMedium(
+                                                        child: SizedBox(
+                                                          height:
+                                                              displaysize.height *
+                                                              .055,
+                                                          child: ElevatedButton(
+                                                            style: Bstyle.elevated_filled_apptheme(
                                                               context,
                                                             ),
-                                                            color: theme.colorScheme.onPrimary,
+                                                            onPressed: () {
+                                                              _forgotpassword.value = false;
+                                                              _newpassword.value = false;
+                                                            },
+                                                            child: Padding(
+                                                              padding: EdgeInsets.symmetric(
+                                                                horizontal:
+                                                                    displaysize.width *
+                                                                    .04,
+                                                              ),
+                                                              child: Txt(
+                                                                "Submit",
+                                                                font: Font.semiBold,
+                                                                size: AppSizes.titleLarge(
+                                                                  context,
+                                                                ),
+                                                                color: theme.colorScheme.onPrimary,
+                                                              ),
+                                                            ),
                                                           ),
                                                         ),
                                                       ),
@@ -241,16 +296,22 @@ class _AuthScreenState
                                                           onTap: () {
                                                             _forgotpassword.value = false;
                                                           },
-                                                          child: SizedBox(
+                                                          child: Container(
+                                                            color: Colors.transparent,
                                                             height:
                                                                 displaysize.height *
                                                                 .04,
                                                             width:
                                                                 displaysize.height *
                                                                 .04,
-                                                            child: txtfieldicon(
-                                                              context,
-                                                              Appicons.leftArrow,
+                                                            child: Align(
+                                                              alignment: Alignment.centerLeft,
+                                                              child: Image.asset(
+                                                                Appicons.leftArrow,
+                                                                height:
+                                                                    displaysize.height *
+                                                                    .02,
+                                                              ),
                                                             ),
                                                           ),
                                                         ),
@@ -287,6 +348,7 @@ class _AuthScreenState
                                                               size: AppSizes.bodyMedium(
                                                                 context,
                                                               ),
+                                                              color: theme.colorScheme.primary,
                                                               font: Font.medium,
                                                             ),
                                                             Row(
@@ -335,14 +397,14 @@ class _AuthScreenState
                                                         onSwipe: () {
                                                           _newpassword.value = true;
                                                         },
-                                                        label1: 'Swipe to confirm',
+                                                        label1: 'Swipe to Confirm',
                                                         label2: 'Verified',
                                                         width:
                                                             displaysize.width *
                                                             .55,
                                                         height:
                                                             displaysize.height *
-                                                            .05,
+                                                            .06,
                                                         backgroundColor: theme.colorScheme.primary,
                                                       ),
                                                     ),

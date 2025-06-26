@@ -258,7 +258,7 @@ class _txtfieldState
           fontSize: AppSizes.titleLarge(
             context,
           ),
-          fontWeight: Font.medium.weight,
+          fontWeight: Font.regular.weight,
           color: Colors.grey.shade600,
         ),
         hoverColor: AppColors.container.withValues(

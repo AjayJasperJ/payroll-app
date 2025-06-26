@@ -272,10 +272,10 @@ class _SwipeToActionWidgetState
                     opacity: fade1,
                     child: Txt(
                       heading1,
-                      font: Font.bold,
+                      font: Font.regular,
                       size:
                           height *
-                          0.35,
+                          0.3,
                       color: Colors.white,
                     ),
                   ),
@@ -291,10 +291,10 @@ class _SwipeToActionWidgetState
                     opacity: fade2,
                     child: Txt(
                       heading2,
-                      font: Font.bold,
+                      font: Font.regular,
                       size:
                           height *
-                          0.35,
+                          0.3,
                       color: Colors.white,
                     ),
                   ),
