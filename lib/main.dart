@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:payroll_hr/app.dart';
-import 'package:payroll_hr/features/auth/auth_screen.dart';
+import 'package:payroll_hr/features/Auth/auth_screen.dart';
+import 'package:payroll_hr/features/Navigation/navigation_screen.dart';
+import 'package:payroll_hr/features/view/view_screen.dart';
 import 'package:window_size/window_size.dart';
 import 'dart:io';
 
@@ -27,7 +29,7 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.light,
       theme: payroll_light(),
       darkTheme: payroll_dark(),
-      home: AuthScreen(),
+      home: NavigationScreen(),
     );
   }
 }

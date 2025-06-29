@@ -3,32 +3,21 @@ import 'package:get/get.dart';
 import 'package:payroll_hr/app.dart';
 import 'package:payroll_hr/core/constants/images.dart';
 import 'package:payroll_hr/core/constants/sizes.dart';
-import 'package:payroll_hr/features/auth/auth_widget.dart';
+import 'package:payroll_hr/features/Auth/auth_widget.dart';
+import 'package:payroll_hr/features/Navigation/navigation_screen.dart';
 import 'package:payroll_hr/widgets/buttonstyle_widget.dart';
 import 'package:payroll_hr/widgets/swipetoaction_widget.dart';
 import 'package:payroll_hr/widgets/txtfield_widget.dart';
 
-class AuthScreen
-    extends
-        StatefulWidget {
-  const AuthScreen({
-    super.key,
-  });
+class AuthScreen extends StatefulWidget {
+  const AuthScreen({super.key});
 
   @override
-  State<
-    AuthScreen
-  >
-  createState() => _AuthScreenState();
+  State<AuthScreen> createState() => _AuthScreenState();
 }
 
-class _AuthScreenState
-    extends
-        State<
-          AuthScreen
-        >
-    with
-        SingleTickerProviderStateMixin {
+class _AuthScreenState extends State<AuthScreen>
+    with SingleTickerProviderStateMixin {
   final RxBool _hideStackContent = false.obs;
   final RxBool _showDemoScreen = false.obs;
   final RxBool _forgotpassword = false.obs;
@@ -37,25 +26,16 @@ class _AuthScreenState
 
   void _onCurtainFullyExpanded() {
     _hideStackContent.value = true;
-    Future.delayed(
-      const Duration(
-        milliseconds: 350,
-      ),
-      () {
-        if (mounted) {
-          _showDemoScreen.value = true;
-        }
-      },
-    );
+    Future.delayed(const Duration(milliseconds: 350), () {
+      if (mounted) {
+        _showDemoScreen.value = true;
+      }
+    });
   }
 
   @override
-  void didUpdateWidget(
-    covariant AuthScreen oldWidget,
-  ) {
-    super.didUpdateWidget(
-      oldWidget,
-    );
+  void didUpdateWidget(covariant AuthScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
     // Not needed for this fix
   }
 
@@ -68,46 +48,28 @@ class _AuthScreenState
   @override
   void initState() {
     super.initState();
-    ever(
-      _newpassword,
-      (
-        val,
-      ) {
-        if (val ==
-            true) {
-          _newPasswordFadeIn.value = false;
-          WidgetsBinding.instance.addPostFrameCallback(
-            (
-              _,
-            ) {
-              _newPasswordFadeIn.value = true;
-            },
-          );
-        } else {
-          _newPasswordFadeIn.value = false;
-        }
-      },
-    );
+    ever(_newpassword, (val) {
+      if (val == true) {
+        _newPasswordFadeIn.value = false;
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _newPasswordFadeIn.value = true;
+        });
+      } else {
+        _newPasswordFadeIn.value = false;
+      }
+    });
   }
 
   @override
-  Widget build(
-    BuildContext context,
-  ) {
-    final theme = Theme.of(
-      context,
-    );
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
           child: SizedBox(
             height:
-                MediaQuery.of(
-                  context,
-                ).size.height -
-                MediaQuery.of(
-                  context,
-                ).padding.top,
+                MediaQuery.of(context).size.height -
+                MediaQuery.of(context).padding.top,
             child: Stack(
               children: [
                 Obx(
@@ -116,53 +78,32 @@ class _AuthScreenState
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              SizedBox(
-                                height:
-                                    displaysize.height *
-                                    .3,
-                              ),
+                              SizedBox(height: displaysize.height * .3),
                               Txt(
                                 'Welcome!',
-                                size: AppSizes.displayMedium(
-                                  context,
-                                ),
+                                size: AppSizes.displayMedium(context),
                                 font: Font.medium,
                               ),
-                              SizedBox(
-                                height:
-                                    displaysize.height *
-                                    .05,
-                              ),
+                              SizedBox(height: displaysize.height * .05),
                               Container(
-                                width:
-                                    displaysize.width *
-                                    .85,
+                                width: displaysize.width * .85,
                                 height: _newpassword.value
-                                    ? displaysize.height *
-                                          .5
-                                    : displaysize.height *
-                                          .45,
+                                    ? displaysize.height * .5
+                                    : displaysize.height * .45,
                                 padding: EdgeInsets.symmetric(
-                                  horizontal:
-                                      displaysize.width *
-                                      .05,
-                                  vertical:
-                                      displaysize.height *
-                                      .02,
+                                  horizontal: displaysize.width * .05,
+                                  vertical: displaysize.height * .02,
                                 ),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(
-                                    displaysize.width *
-                                        .06,
+                                    displaysize.width * .06,
                                   ),
                                   color: Theme.of(
                                     context,
                                   ).colorScheme.primaryContainer,
                                 ),
                                 child: AnimatedSwitcher(
-                                  duration: const Duration(
-                                    seconds: 1,
-                                  ),
+                                  duration: const Duration(seconds: 1),
                                   /* Set New Password Fade In  */
                                   child: _forgotpassword.value
                                       ? Obx(
@@ -171,37 +112,52 @@ class _AuthScreenState
                                                   key: const ValueKey(
                                                     'newpassword',
                                                   ),
-                                                  opacity: _newPasswordFadeIn.value
+                                                  opacity:
+                                                      _newPasswordFadeIn.value
                                                       ? 1.0
                                                       : 0.0,
                                                   duration: const Duration(
                                                     seconds: 1,
                                                   ),
                                                   child: Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
                                                     children: [
                                                       Row(
-                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
                                                         children: [
                                                           GestureDetector(
                                                             onTap: () {
-                                                              _newpassword.value = false;
+                                                              _newpassword
+                                                                      .value =
+                                                                  false;
                                                             },
                                                             child: Container(
-                                                              color: Colors.transparent,
+                                                              color: Colors
+                                                                  .transparent,
                                                               height:
-                                                                  displaysize.height *
+                                                                  displaysize
+                                                                      .height *
                                                                   .04,
                                                               width:
-                                                                  displaysize.height *
+                                                                  displaysize
+                                                                      .height *
                                                                   .04,
                                                               child: Align(
-                                                                alignment: Alignment.centerLeft,
+                                                                alignment: Alignment
+                                                                    .centerLeft,
                                                                 child: Image.asset(
-                                                                  Appicons.leftArrow,
+                                                                  Appicons
+                                                                      .leftArrow,
                                                                   height:
-                                                                      displaysize.height *
+                                                                      displaysize
+                                                                          .height *
                                                                       .02,
                                                                 ),
                                                               ),
@@ -210,69 +166,85 @@ class _AuthScreenState
                                                           Txt(
                                                             "Reset Password",
                                                             height: 0,
-                                                            size: AppSizes.headlineMedium(
-                                                              context,
-                                                            ),
+                                                            size:
+                                                                AppSizes.headlineMedium(
+                                                                  context,
+                                                                ),
                                                             font: Font.regular,
                                                           ),
                                                         ],
                                                       ),
                                                       Column(
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                        children: List.generate(
-                                                          3,
-                                                          (
-                                                            index,
-                                                          ) {
-                                                            List field_data = [
-                                                              {
-                                                                'title': 'Emp.ID : XXX',
-                                                              },
-                                                              {
-                                                                'title': 'Email ID : XXX@x.com',
-                                                              },
-                                                              {
-                                                                'title': 'Phone No : XXXXXXXXXX',
-                                                              },
-                                                            ];
-                                                            return Txt(
-                                                              field_data[index]['title'],
-                                                              size: AppSizes.titleLarge(
-                                                                context,
-                                                              ),
-                                                            );
-                                                          },
-                                                        ),
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: List.generate(3, (
+                                                          index,
+                                                        ) {
+                                                          List field_data = [
+                                                            {
+                                                              'title':
+                                                                  'Emp.ID : XXX',
+                                                            },
+                                                            {
+                                                              'title':
+                                                                  'Email ID : XXX@x.com',
+                                                            },
+                                                            {
+                                                              'title':
+                                                                  'Phone No : XXXXXXXXXX',
+                                                            },
+                                                          ];
+                                                          return Txt(
+                                                            field_data[index]['title'],
+                                                            size:
+                                                                AppSizes.titleLarge(
+                                                                  context,
+                                                                ),
+                                                          );
+                                                        }),
                                                       ),
                                                       txtfield(
-                                                        hintText: "New Password",
+                                                        hintText:
+                                                            "New Password",
                                                       ),
                                                       Center(
                                                         child: SizedBox(
                                                           height:
-                                                              displaysize.height *
+                                                              displaysize
+                                                                  .height *
                                                               .055,
                                                           child: ElevatedButton(
-                                                            style: Bstyle.elevated_filled_apptheme(
-                                                              context,
-                                                            ),
+                                                            style:
+                                                                Bstyle.elevated_filled_apptheme(
+                                                                  context,
+                                                                ),
                                                             onPressed: () {
-                                                              _forgotpassword.value = false;
-                                                              _newpassword.value = false;
+                                                              _forgotpassword
+                                                                      .value =
+                                                                  false;
+                                                              _newpassword
+                                                                      .value =
+                                                                  false;
                                                             },
                                                             child: Padding(
                                                               padding: EdgeInsets.symmetric(
                                                                 horizontal:
-                                                                    displaysize.width *
+                                                                    displaysize
+                                                                        .width *
                                                                     .04,
                                                               ),
                                                               child: Txt(
                                                                 "Submit",
-                                                                font: Font.semiBold,
-                                                                size: AppSizes.titleLarge(
-                                                                  context,
-                                                                ),
-                                                                color: theme.colorScheme.onPrimary,
+                                                                font: Font
+                                                                    .semiBold,
+                                                                size:
+                                                                    AppSizes.titleLarge(
+                                                                      context,
+                                                                    ),
+                                                                color: theme
+                                                                    .colorScheme
+                                                                    .onPrimary,
                                                               ),
                                                             ),
                                                           ),
@@ -283,33 +255,44 @@ class _AuthScreenState
                                                 )
                                               /* If not new password, show OTP verification */
                                               : Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                  key: const ValueKey(
-                                                    'forgot',
-                                                  ),
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  key: const ValueKey('forgot'),
                                                   children: [
                                                     Row(
-                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
                                                       children: [
                                                         GestureDetector(
                                                           onTap: () {
-                                                            _forgotpassword.value = false;
+                                                            _forgotpassword
+                                                                    .value =
+                                                                false;
                                                           },
                                                           child: Container(
-                                                            color: Colors.transparent,
+                                                            color: Colors
+                                                                .transparent,
                                                             height:
-                                                                displaysize.height *
+                                                                displaysize
+                                                                    .height *
                                                                 .04,
                                                             width:
-                                                                displaysize.height *
+                                                                displaysize
+                                                                    .height *
                                                                 .04,
                                                             child: Align(
-                                                              alignment: Alignment.centerLeft,
+                                                              alignment: Alignment
+                                                                  .centerLeft,
                                                               child: Image.asset(
-                                                                Appicons.leftArrow,
+                                                                Appicons
+                                                                    .leftArrow,
                                                                 height:
-                                                                    displaysize.height *
+                                                                    displaysize
+                                                                        .height *
                                                                     .02,
                                                               ),
                                                             ),
@@ -318,18 +301,20 @@ class _AuthScreenState
                                                         Txt(
                                                           "OTP Verification",
                                                           height: 0,
-                                                          size: AppSizes.headlineMedium(
-                                                            context,
-                                                          ),
+                                                          size:
+                                                              AppSizes.headlineMedium(
+                                                                context,
+                                                              ),
                                                           font: Font.regular,
                                                         ),
                                                       ],
                                                     ),
                                                     Txt(
                                                       "Emp.ID : XXX",
-                                                      size: AppSizes.headlineSmall(
-                                                        context,
-                                                      ),
+                                                      size:
+                                                          AppSizes.headlineSmall(
+                                                            context,
+                                                          ),
                                                       font: Font.regular,
                                                     ),
                                                     Column(
@@ -337,18 +322,24 @@ class _AuthScreenState
                                                         txtotpfield(),
                                                         SizedBox(
                                                           height:
-                                                              displaysize.height *
+                                                              displaysize
+                                                                  .height *
                                                               .01,
                                                         ),
                                                         Row(
-                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
                                                           children: [
                                                             Txt(
                                                               '05:00',
-                                                              size: AppSizes.bodyMedium(
-                                                                context,
-                                                              ),
-                                                              color: theme.colorScheme.primary,
+                                                              size:
+                                                                  AppSizes.bodyMedium(
+                                                                    context,
+                                                                  ),
+                                                              color: theme
+                                                                  .colorScheme
+                                                                  .primary,
                                                               font: Font.medium,
                                                             ),
                                                             Row(
@@ -357,21 +348,27 @@ class _AuthScreenState
                                                                   TextSpan(
                                                                     children: [
                                                                       TextSpan(
-                                                                        text: "Didn't got OTP ? ",
+                                                                        text:
+                                                                            "Didn't got OTP ? ",
                                                                         style: TextStyle(
                                                                           fontSize: AppSizes.bodyMedium(
                                                                             context,
                                                                           ),
-                                                                          fontWeight: Font.medium.weight,
+                                                                          fontWeight: Font
+                                                                              .medium
+                                                                              .weight,
                                                                         ),
                                                                       ),
                                                                       TextSpan(
-                                                                        text: "Resend",
+                                                                        text:
+                                                                            "Resend",
                                                                         style: TextStyle(
                                                                           fontSize: AppSizes.bodyMedium(
                                                                             context,
                                                                           ),
-                                                                          fontWeight: Font.semiBold.weight,
+                                                                          fontWeight: Font
+                                                                              .semiBold
+                                                                              .weight,
                                                                         ),
                                                                       ),
                                                                     ],
@@ -379,12 +376,14 @@ class _AuthScreenState
                                                                 ),
                                                                 SizedBox(
                                                                   width:
-                                                                      displaysize.width *
+                                                                      displaysize
+                                                                          .width *
                                                                       .02,
                                                                 ),
                                                                 txtfieldicon(
                                                                   context,
-                                                                  Appicons.reload,
+                                                                  Appicons
+                                                                      .reload,
                                                                 ),
                                                               ],
                                                             ),
@@ -395,9 +394,11 @@ class _AuthScreenState
                                                     Center(
                                                       child: SwipeToActionWidget(
                                                         onSwipe: () {
-                                                          _newpassword.value = true;
+                                                          _newpassword.value =
+                                                              true;
                                                         },
-                                                        label1: 'Swipe to Confirm',
+                                                        label1:
+                                                            'Swipe to Confirm',
                                                         label2: 'Verified',
                                                         width:
                                                             displaysize.width *
@@ -405,7 +406,9 @@ class _AuthScreenState
                                                         height:
                                                             displaysize.height *
                                                             .06,
-                                                        backgroundColor: theme.colorScheme.primary,
+                                                        backgroundColor: theme
+                                                            .colorScheme
+                                                            .primary,
                                                       ),
                                                     ),
                                                   ],
@@ -414,15 +417,12 @@ class _AuthScreenState
                                       /* If not new password, show login form */
                                       : Padding(
                                           padding: EdgeInsets.symmetric(
-                                            vertical:
-                                                displaysize.height *
-                                                .02,
+                                            vertical: displaysize.height * .02,
                                           ),
                                           child: Column(
-                                            key: const ValueKey(
-                                              'login',
-                                            ),
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            key: const ValueKey('login'),
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
                                               Txt(
                                                 "Login",
@@ -448,27 +448,34 @@ class _AuthScreenState
                                                 ],
                                               ),
                                               Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
                                                   Material(
                                                     color: Colors.transparent,
-                                                    borderRadius: BorderRadius.circular(
-                                                      displaysize.width *
-                                                          .03,
-                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                          displaysize.width *
+                                                              .03,
+                                                        ),
                                                     child: InkWell(
-                                                      borderRadius: BorderRadius.circular(
-                                                        displaysize.width *
-                                                            .03,
-                                                      ),
-                                                      hoverColor: theme.colorScheme.secondary.withOpacity(
-                                                        0.2,
-                                                      ),
-                                                      splashColor: theme.colorScheme.secondary.withOpacity(
-                                                        0.3,
-                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                            displaysize.width *
+                                                                .03,
+                                                          ),
+                                                      hoverColor: theme
+                                                          .colorScheme
+                                                          .secondary
+                                                          .withOpacity(0.2),
+                                                      splashColor: theme
+                                                          .colorScheme
+                                                          .secondary
+                                                          .withOpacity(0.3),
                                                       onTap: () {
-                                                        _forgotpassword.value = true;
+                                                        _forgotpassword.value =
+                                                            true;
                                                       },
                                                       child: Container(
                                                         height:
@@ -478,10 +485,12 @@ class _AuthScreenState
                                                             displaysize.width /
                                                             2.9,
                                                         decoration: BoxDecoration(
-                                                          borderRadius: BorderRadius.circular(
-                                                            displaysize.width *
-                                                                .03,
-                                                          ),
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                displaysize
+                                                                        .width *
+                                                                    .03,
+                                                              ),
                                                           border: Border.all(
                                                             color: Colors.black,
                                                           ),
@@ -492,9 +501,10 @@ class _AuthScreenState
                                                             font: Font.semiBold,
                                                             height: 3,
                                                             space: 0,
-                                                            size: AppSizes.bodyMedium(
-                                                              context,
-                                                            ),
+                                                            size:
+                                                                AppSizes.bodyMedium(
+                                                                  context,
+                                                                ),
                                                           ),
                                                         ),
                                                       ),
@@ -505,22 +515,25 @@ class _AuthScreenState
                                                         displaysize.height *
                                                         .055,
                                                     width:
-                                                        displaysize.width /
-                                                        2.9,
+                                                        displaysize.width / 2.9,
                                                     child: ElevatedButton(
-                                                      style: Bstyle.elevated_filled_apptheme(
-                                                        context,
-                                                      ),
+                                                      style:
+                                                          Bstyle.elevated_filled_apptheme(
+                                                            context,
+                                                          ),
                                                       onPressed: () {},
                                                       child: Txt(
                                                         "Login",
                                                         font: Font.semiBold,
                                                         space: 1.5,
                                                         height: 0,
-                                                        size: AppSizes.titleMedium(
-                                                          context,
-                                                        ),
-                                                        color: theme.colorScheme.onPrimary,
+                                                        size:
+                                                            AppSizes.titleMedium(
+                                                              context,
+                                                            ),
+                                                        color: theme
+                                                            .colorScheme
+                                                            .onPrimary,
                                                       ),
                                                     ),
                                                   ),
@@ -542,51 +555,33 @@ class _AuthScreenState
                       ? Align(
                           alignment: Alignment.topCenter,
                           child: AuthWidget.SlidableCurtainWidget(
-                            color: Theme.of(
-                              context,
-                            ).colorScheme.primary,
+                            color: Theme.of(context).colorScheme.primary,
                             child: Column(
                               children: [
-                                SizedBox(
-                                  height:
-                                      displaysize.height *
-                                      .06,
-                                ),
+                                SizedBox(height: displaysize.height * .06),
                                 Image.asset(
                                   Appimages.applogo,
-                                  height:
-                                      displaysize.height *
-                                      .08,
+                                  height: displaysize.height * .08,
                                 ),
                               ],
                             ),
                             buttonwidget: Container(
-                              color: Colors.white.withValues(
-                                alpha: 0,
-                              ),
+                              color: Colors.white.withValues(alpha: 0),
                               child: Column(
                                 children: [
                                   Txt(
                                     'Explore',
-                                    size: AppSizes.titleLarge(
-                                      context,
-                                    ),
+                                    size: AppSizes.titleLarge(context),
                                     color: Theme.of(
                                       context,
                                     ).colorScheme.onPrimary,
                                   ),
-                                  SizedBox(
-                                    height:
-                                        displaysize.height *
-                                        .02,
-                                  ),
+                                  SizedBox(height: displaysize.height * .02),
                                   AuthWidget.upDownInfinite(
                                     offset: 10,
                                     child: Image.asset(
                                       Appicons.download,
-                                      height:
-                                          displaysize.height *
-                                          .03,
+                                      height: displaysize.height * .03,
                                     ),
                                   ),
                                 ],
@@ -599,7 +594,7 @@ class _AuthScreenState
                 ),
                 Obx(
                   () => _showDemoScreen.value
-                      ? const DemoScreen()
+                      ? NavigationScreen()
                       : SizedBox.shrink(),
                 ),
               ],
@@ -611,36 +606,17 @@ class _AuthScreenState
   }
 }
 
-class DemoScreen
-    extends
-        StatefulWidget {
-  const DemoScreen({
-    super.key,
-  });
+class DemoScreen extends StatefulWidget {
+  const DemoScreen({super.key});
 
   @override
-  State<
-    DemoScreen
-  >
-  createState() => _DemoScreenState();
+  State<DemoScreen> createState() => _DemoScreenState();
 }
 
-class _DemoScreenState
-    extends
-        State<
-          DemoScreen
-        > {
+class _DemoScreenState extends State<DemoScreen> {
   @override
-  Widget build(
-    BuildContext context,
-  ) {
-    return Scaffold(
-      body: Center(
-        child: Text(
-          "Demo Page",
-        ),
-      ),
-    );
+  Widget build(BuildContext context) {
+    return Scaffold(body: Center(child: Text("Demo Page")));
   }
 }
 

@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:payroll_hr/app.dart';
-import 'package:payroll_hr/features/auth/auth_screen.dart';
+import 'package:payroll_hr/features/Auth/auth_screen.dart';
 
 class AuthWidget {
   static Path rectanglecirclebottom(Size size) {
