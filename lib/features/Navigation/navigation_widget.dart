@@ -51,10 +51,10 @@ class NavigationSidebar extends StatelessWidget {
         }
         return Material(
           color: Colors.transparent,
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: BorderRadius.circular(15),
           elevation: 0,
           child: Container(
-            height: constraintsh * .88 - notificationbar_height,
+            height: height - constraintsh * .02,
             width: width,
             margin: EdgeInsets.only(
               left: constraintsh * .01,
@@ -62,7 +62,7 @@ class NavigationSidebar extends StatelessWidget {
               top: notificationbar_height + constraintsh * .01,
             ),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(24),
+              borderRadius: BorderRadius.circular(20),
               color: Colors.white,
               boxShadow: shadow > 0
                   ? [
@@ -92,7 +92,7 @@ class NavigationSidebar extends StatelessWidget {
                                     height: displaysize.height * .04,
                                     child: InkWell(
                                       onTap: onToggle,
-                                      borderRadius: BorderRadius.circular(16),
+                                      borderRadius: BorderRadius.circular(15),
                                       child: Center(
                                         child: Image.asset(
                                           Appicons.rightArrowDouble,

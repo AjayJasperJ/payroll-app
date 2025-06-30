@@ -17,37 +17,54 @@ class _MessageScreenState extends State<MessageScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Padding(
-          padding: EdgeInsets.only(left: width_main * .05),
-          child: Txt(
-            'Messages',
-            font: Font.regular,
-            size: displaysize.height * .024,
-          ),
-        ),
+        Txt('Messages', font: Font.regular, size: displaysize.height * .024),
         Container(
-          width: width_main * .9,
           height: height_main * .88,
           child: ListView.builder(
             itemCount: 20,
             itemBuilder: (BuildContext context, int index) {
-              return ListTile(
-                leading: CircleAvatar(),
-                title: Txt("Alex$index"),
-                subtitle: Txt(
-                  "ghddfioghggj",
-                  size: AppSizes.bodySmall(context),
-                ),
-                trailing: Txt(
-                  '01:38',
-                  align: TextAlign.end,
-                  size: AppSizes.bodySmall(context) - 1,
-                  height: 0,
-                  space: 0,
-                ),
-              );
+              return CListView(index: index);
             },
           ),
+        ),
+      ],
+    );
+  }
+}
+
+class CListView extends StatelessWidget {
+  final int index;
+
+  const CListView({super.key, required this.index});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SizedBox(height: displaysize.height * .01),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                CircleAvatar(radius: displaysize.height * .02),
+                SizedBox(width: displaysize.height * .01),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Txt("Username $index", size: AppSizes.titleMedium(context)),
+                    Txt("Latest mesg received", size: AppSizes.labelMedium(context)),
+                  ],
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Txt('10:38', size: AppSizes.labelSmall(context)),
+                SizedBox(width: displaysize.height * .01),
+              ],
+            ),
+          ],
         ),
       ],
     );

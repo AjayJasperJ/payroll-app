@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:payroll_hr/app.dart';
-import 'package:payroll_hr/core/constants/colors.dart';
 import 'package:payroll_hr/core/constants/images.dart';
 import 'package:payroll_hr/core/constants/sizes.dart';
 import 'package:payroll_hr/widgets/txtfield_widget.dart';
@@ -27,7 +26,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       children: [
         Container(
           height: height_main * .25,
-          width: width_main * .9,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
             color: Theme.of(context).colorScheme.primaryContainer,
@@ -42,10 +40,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Txt('Name : JordanX', size: height_main * .025, font: Font.light),
-                    Txt('Emp.ID : XXX', size: height_main * .025, font: Font.light),
-                    Txt('Email : jorxxx@gm.com', size: height_main * .025, font: Font.light),
-                    Txt('Profile : Developer', size: height_main * .025, font: Font.light),
+                    Txt(
+                      'Name : JordanX',
+                      size: AppSizes.titleMedium(context),
+                      font: Font.light,
+                      max: 1,
+                    ),
+                    Txt(
+                      'Emp.ID : XXX',
+                      size: AppSizes.titleMedium(context),
+                      font: Font.light,
+                      max: 1,
+                    ),
+                    Txt(
+                      'Email : jorxxx@gm.com',
+                      size: AppSizes.titleMedium(context),
+                      font: Font.light,
+                      max: 1,
+                    ),
+                    Txt(
+                      'Profile : Developer',
+                      size: AppSizes.titleMedium(context),
+                      font: Font.light,
+                      max: 1,
+                    ),
                   ],
                 ),
               ),
@@ -62,7 +80,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
             final field = profile_fielddata[index];
             return Container(
               height: height_main * .1,
-              width: width_main * .9,
               margin: EdgeInsets.only(top: height_main * .01),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
@@ -72,7 +89,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Txt(field['title']!, size: AppSizes.titleLarge(context) - 2),
+                  Txt(field['title']!, size: AppSizes.titleMedium(context)),
                   txtfieldicon(context, Appicons.right_arrow, color: Colors.black),
                 ],
               ),

@@ -42,12 +42,3 @@ ThemeData payroll_dark() {
 
 late double height_main;
 late double width_main;
-
-late double height_sidebar;
-late double width_sidebar;
-
-late double height_bottom;
-late double width_bottom;
-
-late double height_generate;
-late double width_generate;

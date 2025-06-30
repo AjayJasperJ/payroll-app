@@ -6,7 +6,6 @@ import 'package:payroll_hr/features/Navigation/home/home_screen.dart';
 import 'package:payroll_hr/features/Navigation/message/message_screen.dart';
 import 'package:payroll_hr/features/Navigation/navigation_widget.dart';
 import 'package:payroll_hr/features/Navigation/profile/profile_screen.dart';
-import 'package:payroll_hr/features/Navigation/profile/settings/settings_screen.dart';
 
 class NavigationScreen extends StatefulWidget {
   const NavigationScreen({super.key});
@@ -69,10 +68,13 @@ class _NavigationScreenState extends State<NavigationScreen> with SingleTickerPr
   final pages = [HomeScreen(), MessageScreen(), ProfileScreen()];
   @override
   Widget build(BuildContext context) {
-    final notificationbar_height = displaysize.height * .06;
+    final notificationbar_height = displaysize.height * .04;
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(gradient: AppColors.gradentbackground),
+        decoration: BoxDecoration(
+          // color: AppColors.primary,
+          gradient: AppColors.gradentbackground,
+        ),
         child: LayoutBuilder(
           builder: (context, constraints) {
             height_main = constraints.maxHeight * .82 - notificationbar_height;
@@ -85,20 +87,10 @@ class _NavigationScreenState extends State<NavigationScreen> with SingleTickerPr
                     Row(
                       children: [
                         ConstrainedBox(
+                          /* Sidebar */
                           constraints: BoxConstraints(
-                            minHeight: constraints.maxHeight * .02,
+                            minHeight: constraints.maxHeight * .9 - notificationbar_height,
                             minWidth: constraints.maxWidth * .2,
-                          ),
-                          child: Container(
-                            margin: EdgeInsets.only(
-                              left: constraints.maxHeight * .01,
-                              bottom: constraints.maxHeight * .01,
-                              top: constraints.maxHeight * .01,
-                            ),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.white,
-                            ),
                           ),
                         ),
                         Column(
@@ -106,23 +98,25 @@ class _NavigationScreenState extends State<NavigationScreen> with SingleTickerPr
                             Row(
                               children: [
                                 ConstrainedBox(
+                                  /* Generate Button */
                                   constraints: BoxConstraints(
                                     minHeight: constraints.maxHeight * .08,
                                     minWidth: constraints.maxWidth * .4,
                                   ),
                                   child: Container(
                                     margin: EdgeInsets.only(
+                                      top: constraints.maxHeight * .01,
                                       left: constraints.maxHeight * .01,
                                       right: constraints.maxHeight * .005,
-                                      top: constraints.maxHeight * .01,
                                     ),
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
+                                      borderRadius: BorderRadius.circular(15),
                                       color: Colors.white,
                                     ),
                                   ),
                                 ),
                                 ConstrainedBox(
+                                  /* Profile Button */
                                   constraints: BoxConstraints(
                                     minHeight: constraints.maxHeight * .08,
                                     minWidth: constraints.maxWidth * .4,
@@ -130,11 +124,11 @@ class _NavigationScreenState extends State<NavigationScreen> with SingleTickerPr
                                   child: Container(
                                     margin: EdgeInsets.only(
                                       top: constraints.maxHeight * .01,
-                                      left: constraints.maxHeight * .005,
                                       right: constraints.maxHeight * .01,
+                                      left: constraints.maxHeight * .005,
                                     ),
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
+                                      borderRadius: BorderRadius.circular(15),
                                       color: Colors.white,
                                     ),
                                   ),
@@ -142,17 +136,24 @@ class _NavigationScreenState extends State<NavigationScreen> with SingleTickerPr
                               ],
                             ),
                             ConstrainedBox(
+                              /* Main Container UI */
                               constraints: BoxConstraints(
                                 minWidth: constraints.maxWidth * .8,
                                 minHeight: constraints.maxHeight * .82 - notificationbar_height,
                               ),
                               child: Container(
-                                margin: EdgeInsets.all(constraints.maxHeight * .01),
+                                height: height_main - constraints.maxHeight * .02,
+                                width: width_main - constraints.maxHeight * .02,
                                 padding: EdgeInsets.symmetric(
+                                  horizontal: width_main * .030,
+                                  vertical: height_main * .015,
+                                ),
+                                margin: EdgeInsets.symmetric(
+                                  horizontal: constraints.maxHeight * .01,
                                   vertical: constraints.maxHeight * .01,
                                 ),
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(18),
+                                  borderRadius: BorderRadius.circular(20),
                                   color: Colors.white,
                                 ),
                                 child: pages[current_index],
@@ -172,7 +173,7 @@ class _NavigationScreenState extends State<NavigationScreen> with SingleTickerPr
                         ),
                         padding: EdgeInsets.symmetric(horizontal: constraints.maxWidth * .05),
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(18),
+                          borderRadius: BorderRadius.circular(20),
                           color: Colors.white,
                         ),
                         child: Row(
@@ -220,13 +221,15 @@ class _NavigationScreenState extends State<NavigationScreen> with SingleTickerPr
                   ),
                 // Sidebar itself
                 ConstrainedBox(
+                  /* Sidebar */
                   constraints: BoxConstraints(
-                    minHeight: constraints.maxHeight * .8 - notificationbar_height,
-                    minWidth: constraints.maxWidth * .18,
+                    minHeight: constraints.maxHeight * .9 - notificationbar_height,
+                    minWidth: constraints.maxWidth * .2,
                   ),
+
                   child: NavigationSidebar(
                     width: _sidebarWidthAnim.value,
-                    height: constraints.maxHeight * .88 - notificationbar_height,
+                    height: constraints.maxHeight * .9 - notificationbar_height,
                     notificationbarHeight: notificationbar_height,
                     onToggle: _toggleSidebar,
                     onIndex: update_index,

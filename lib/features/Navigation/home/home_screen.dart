@@ -15,10 +15,10 @@ class _HomeScreenState extends State<HomeScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
       children: [
         Container(
           height: height_main * .37,
-          width: width_main * .9,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
             color: AppColors.container,
@@ -26,7 +26,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         Container(
           height: height_main * .37,
-          width: width_main * .9,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
             color: AppColors.container,
@@ -34,7 +33,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         Container(
           height: height_main * .18,
-          width: width_main * .9,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
             color: AppColors.container,
