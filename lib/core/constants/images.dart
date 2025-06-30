@@ -1,5 +1,6 @@
 class Appimages {
   static const String applogo = 'assets/images/Logo.png';
+  static const String profile = 'assets/images/profile.png';
 }
 
 class Appicons {
@@ -18,4 +19,5 @@ class Appicons {
   static const String wealth = 'assets/icons/wealth.png';
   static const String hide = 'assets/icons/hide.png';
   static const String reload = 'assets/icons/reload.png';
+  static const String right_arrow = 'assets/icons/right_arrow.png';
 }

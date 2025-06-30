@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:payroll_hr/core/constants/colors.dart';
 
 late Size displaysize;
-late ColorScheme cs;
 
 payroll_light() {
   return ThemeData(
+    cardColor: AppColors.inputcolor,
     fontFamily: 'Roboto',
     colorScheme: ColorScheme.light(
       surface: Colors.white,
@@ -24,6 +24,7 @@ payroll_light() {
 
 ThemeData payroll_dark() {
   return ThemeData(
+    cardColor: AppColors.inputcolor,
     fontFamily: 'Roboto',
     colorScheme: ColorScheme.dark(
       primary: AppColors.primary,
@@ -38,3 +39,15 @@ ThemeData payroll_dark() {
     ),
   );
 }
+
+late double height_main;
+late double width_main;
+
+late double height_sidebar;
+late double width_sidebar;
+
+late double height_bottom;
+late double width_bottom;
+
+late double height_generate;
+late double width_generate;

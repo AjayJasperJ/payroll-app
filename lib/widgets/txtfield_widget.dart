@@ -6,9 +6,11 @@ import 'package:payroll_hr/core/constants/sizes.dart';
 
 enum Font {
   bold(FontWeight.w700),
+  thin(FontWeight.w100),
+  light(FontWeight.w300),
   medium(FontWeight.w500),
   regular(FontWeight.w400),
-  semiBold(FontWeight.w600);
+  black(FontWeight.w900);
 
   final FontWeight weight;
   const Font(this.weight);
@@ -150,20 +152,13 @@ class _txtfieldState extends State<txtfield> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      style: TextStyle(
-        fontSize: AppSizes.titleLarge(context),
-        fontWeight: Font.medium.weight,
-        color: Theme.of(context).textTheme.bodyMedium?.color,
-      ),
       obscureText: widget.hidepass ?? false,
       onTap: widget.onTap,
       controller: _controller,
       focusNode: _focusNode,
       textInputAction:
           widget.textInputAction ??
-          (widget.nextFocusNode != null
-              ? TextInputAction.next
-              : TextInputAction.done),
+          (widget.nextFocusNode != null ? TextInputAction.next : TextInputAction.done),
       onFieldSubmitted: _handleSubmitted,
       validator: _validator,
       readOnly: widget.readonly ?? false,
@@ -177,7 +172,7 @@ class _txtfieldState extends State<txtfield> {
         hintStyle: TextStyle(
           wordSpacing: 2,
           fontSize: AppSizes.titleLarge(context),
-          fontWeight: Font.regular.weight,
+          fontWeight: Font.medium.weight,
           color: Colors.grey.shade600,
         ),
         hoverColor: AppColors.container.withValues(alpha: .2),
@@ -190,10 +185,7 @@ class _txtfieldState extends State<txtfield> {
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(displaysize.width * .03),
           borderSide: _hasError
-              ? BorderSide(
-                  color: Theme.of(context).colorScheme.error,
-                  width: 1.5,
-                )
+              ? BorderSide(color: Theme.of(context).colorScheme.error, width: 1.5)
               : BorderSide.none,
         ),
       ),
@@ -230,10 +222,7 @@ class _txtotpfieldState extends State<txtotpfield> {
   }
 
   void _initializeControllers() {
-    _controllers = List.generate(
-      widget.length,
-      (index) => TextEditingController(),
-    );
+    _controllers = List.generate(widget.length, (index) => TextEditingController());
     _focusNodes = List.generate(widget.length, (index) => FocusNode());
   }
 
@@ -312,8 +301,8 @@ class _txtotpfieldState extends State<txtotpfield> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: List.generate(widget.length, (index) {
         return SizedBox(
-          width: displaysize.height * .065,
-          height: displaysize.height * .065,
+          width: displaysize.height * .08,
+          height: displaysize.height * .08,
           child: RawKeyboardListener(
             focusNode: FocusNode(),
             onKey: (event) {
@@ -332,29 +321,13 @@ class _txtotpfieldState extends State<txtotpfield> {
                   FilteringTextInputFormatter.digitsOnly,
                   LengthLimitingTextInputFormatter(1),
                 ],
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  fontSize: displaysize.height * 0.04,
-                ),
-                cursorHeight: displaysize.height * 0.04,
+                style: Theme.of(context).textTheme.bodyLarge,
                 decoration: InputDecoration(
-                  fillColor: Theme.of(context).colorScheme.secondary,
-                  filled: true,
-                  hintText: "0",
-                  hintStyle: TextStyle(color: Colors.grey.shade400, height: 02),
-                  isDense: false,
-                  hoverColor: Colors.white,
-                  contentPadding: EdgeInsets.only(bottom: 30),
                   enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(
-                      displaysize.width * .03,
-                    ),
-                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(displaysize.width * .03),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(
-                      displaysize.width * .03,
-                    ),
-                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(displaysize.width * .03),
                   ),
                 ),
                 onChanged: (value) => _handleTextChange(index, value),
@@ -378,7 +351,7 @@ class _txtotpfieldState extends State<txtotpfield> {
   }
 }
 
-txtfieldicon(context, String imagepath, {Color? color = Colors.black}) {
+txtfieldicon(context, String imagepath, {Color? color}) {
   return Container(
     height: displaysize.height * .022,
     width: displaysize.height * .022,
@@ -387,7 +360,7 @@ txtfieldicon(context, String imagepath, {Color? color = Colors.black}) {
       child: Image.asset(
         imagepath,
         height: displaysize.height * .022,
-        color: color,
+        color: color ?? Theme.of(context).colorScheme.secondaryContainer,
       ),
     ),
   );

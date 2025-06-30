@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:payroll_hr/app.dart';
-import 'package:payroll_hr/features/Auth/auth_screen.dart';
+import 'package:payroll_hr/features/Navigation/home/home_screen.dart';
 
 class AuthWidget {
   static Path rectanglecirclebottom(Size size) {
@@ -69,18 +69,15 @@ class _UpDownInfinite extends StatefulWidget {
   State<_UpDownInfinite> createState() => _UpDownInfiniteState();
 }
 
-class _UpDownInfiniteState extends State<_UpDownInfinite>
-    with SingleTickerProviderStateMixin {
+class _UpDownInfiniteState extends State<_UpDownInfinite> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 2),
-    )..repeat(reverse: true);
+    _controller = AnimationController(vsync: this, duration: const Duration(seconds: 2))
+      ..repeat(reverse: true);
     _animation = Tween<double>(
       begin: 0,
       end: -widget.offset,
@@ -98,10 +95,7 @@ class _UpDownInfiniteState extends State<_UpDownInfinite>
     return AnimatedBuilder(
       animation: _animation,
       builder: (context, child) {
-        return Transform.translate(
-          offset: Offset(0, _animation.value),
-          child: child,
-        );
+        return Transform.translate(offset: Offset(0, _animation.value), child: child);
       },
       child: widget.child,
     );
@@ -214,7 +208,7 @@ class __SlidableCurtainWidgetState extends State<_SlidableCurtainWidget>
         AnimatedOpacity(
           opacity: _showDemoScreen ? 1.0 : 0.0,
           duration: const Duration(milliseconds: 350),
-          child: _showDemoScreen ? DemoScreen() : const SizedBox.shrink(),
+          child: _showDemoScreen ? HomeScreen() : const SizedBox.shrink(),
         ),
         AnimatedOpacity(
           opacity: _opacity,
@@ -242,18 +236,14 @@ class __SlidableCurtainWidgetState extends State<_SlidableCurtainWidget>
                     right: 0,
                     bottom: widget.circleRadius * 3,
                     child: GestureDetector(
-                      onVerticalDragUpdate: (details) =>
-                          _onDragUpdate(details, size.height),
+                      onVerticalDragUpdate: (details) => _onDragUpdate(details, size.height),
                       onHorizontalDragUpdate: _onHorizontalDragUpdate,
-                      onVerticalDragEnd: (details) =>
-                          _onVerticalDragEnd(details, size.height),
+                      onVerticalDragEnd: (details) => _onVerticalDragEnd(details, size.height),
                       onTap: _expandCurtain,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         mainAxisSize: MainAxisSize.min,
-                        children: [
-                          if (widget.buttonwidget != null) widget.buttonwidget!,
-                        ],
+                        children: [if (widget.buttonwidget != null) widget.buttonwidget!],
                       ),
                     ),
                   ),
@@ -270,10 +260,7 @@ class __SlidableCurtainWidgetState extends State<_SlidableCurtainWidget>
 class _ThreeSideRectOneCircleClipper extends CustomClipper<Path> {
   final double height;
   final double circleRadius;
-  _ThreeSideRectOneCircleClipper({
-    required this.height,
-    required this.circleRadius,
-  });
+  _ThreeSideRectOneCircleClipper({required this.height, required this.circleRadius});
 
   @override
   Path getClip(Size size) {
@@ -289,12 +276,7 @@ class _ThreeSideRectOneCircleClipper extends CustomClipper<Path> {
       // 3 straight sides, bottom is a perfect semicircle using quadraticBezierTo
       final arcY = height - 150;
       path.lineTo(0, arcY + 50);
-      path.quadraticBezierTo(
-        size.width / 2,
-        arcY + size.width / 2,
-        size.width,
-        arcY + 50,
-      );
+      path.quadraticBezierTo(size.width / 2, arcY + size.width / 2, size.width, arcY + 50);
       path.lineTo(size.width, 0);
     }
     path.close();
@@ -303,7 +285,6 @@ class _ThreeSideRectOneCircleClipper extends CustomClipper<Path> {
 
   @override
   bool shouldReclip(_ThreeSideRectOneCircleClipper oldClipper) {
-    return oldClipper.height != height ||
-        oldClipper.circleRadius != circleRadius;
+    return oldClipper.height != height || oldClipper.circleRadius != circleRadius;
   }
 }

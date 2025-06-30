@@ -16,8 +16,7 @@ class AuthScreen extends StatefulWidget {
   State<AuthScreen> createState() => _AuthScreenState();
 }
 
-class _AuthScreenState extends State<AuthScreen>
-    with SingleTickerProviderStateMixin {
+class _AuthScreenState extends State<AuthScreen> with SingleTickerProviderStateMixin {
   final RxBool _hideStackContent = false.obs;
   final RxBool _showDemoScreen = false.obs;
   final RxBool _forgotpassword = false.obs;
@@ -67,9 +66,7 @@ class _AuthScreenState extends State<AuthScreen>
       body: SafeArea(
         child: SingleChildScrollView(
           child: SizedBox(
-            height:
-                MediaQuery.of(context).size.height -
-                MediaQuery.of(context).padding.top,
+            height: MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top,
             child: Stack(
               children: [
                 Obx(
@@ -95,12 +92,8 @@ class _AuthScreenState extends State<AuthScreen>
                                   vertical: displaysize.height * .02,
                                 ),
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(
-                                    displaysize.width * .06,
-                                  ),
-                                  color: Theme.of(
-                                    context,
-                                  ).colorScheme.primaryContainer,
+                                  borderRadius: BorderRadius.circular(displaysize.width * .06),
+                                  color: Theme.of(context).colorScheme.primaryContainer,
                                 ),
                                 child: AnimatedSwitcher(
                                   duration: const Duration(seconds: 1),
@@ -109,56 +102,31 @@ class _AuthScreenState extends State<AuthScreen>
                                       ? Obx(
                                           () => _newpassword.value
                                               ? AnimatedOpacity(
-                                                  key: const ValueKey(
-                                                    'newpassword',
-                                                  ),
-                                                  opacity:
-                                                      _newPasswordFadeIn.value
-                                                      ? 1.0
-                                                      : 0.0,
-                                                  duration: const Duration(
-                                                    seconds: 1,
-                                                  ),
+                                                  key: const ValueKey('newpassword'),
+                                                  opacity: _newPasswordFadeIn.value ? 1.0 : 0.0,
+                                                  duration: const Duration(seconds: 1),
                                                   child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
                                                     mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
+                                                        MainAxisAlignment.spaceBetween,
                                                     children: [
                                                       Row(
                                                         mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
+                                                            MainAxisAlignment.spaceBetween,
                                                         children: [
                                                           GestureDetector(
                                                             onTap: () {
-                                                              _newpassword
-                                                                      .value =
-                                                                  false;
+                                                              _newpassword.value = false;
                                                             },
                                                             child: Container(
-                                                              color: Colors
-                                                                  .transparent,
-                                                              height:
-                                                                  displaysize
-                                                                      .height *
-                                                                  .04,
-                                                              width:
-                                                                  displaysize
-                                                                      .height *
-                                                                  .04,
+                                                              color: Colors.transparent,
+                                                              height: displaysize.height * .04,
+                                                              width: displaysize.height * .04,
                                                               child: Align(
-                                                                alignment: Alignment
-                                                                    .centerLeft,
+                                                                alignment: Alignment.centerLeft,
                                                                 child: Image.asset(
-                                                                  Appicons
-                                                                      .leftArrow,
-                                                                  height:
-                                                                      displaysize
-                                                                          .height *
-                                                                      .02,
+                                                                  Appicons.leftArrow,
+                                                                  height: displaysize.height * .02,
                                                                 ),
                                                               ),
                                                             ),
@@ -166,85 +134,47 @@ class _AuthScreenState extends State<AuthScreen>
                                                           Txt(
                                                             "Reset Password",
                                                             height: 0,
-                                                            size:
-                                                                AppSizes.headlineMedium(
-                                                                  context,
-                                                                ),
+                                                            size: AppSizes.headlineMedium(context),
                                                             font: Font.regular,
                                                           ),
                                                         ],
                                                       ),
                                                       Column(
                                                         crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: List.generate(3, (
-                                                          index,
-                                                        ) {
+                                                            CrossAxisAlignment.start,
+                                                        children: List.generate(3, (index) {
                                                           List field_data = [
-                                                            {
-                                                              'title':
-                                                                  'Emp.ID : XXX',
-                                                            },
-                                                            {
-                                                              'title':
-                                                                  'Email ID : XXX@x.com',
-                                                            },
-                                                            {
-                                                              'title':
-                                                                  'Phone No : XXXXXXXXXX',
-                                                            },
+                                                            {'title': 'Emp.ID : XXX'},
+                                                            {'title': 'Email ID : XXX@x.com'},
+                                                            {'title': 'Phone No : XXXXXXXXXX'},
                                                           ];
                                                           return Txt(
                                                             field_data[index]['title'],
-                                                            size:
-                                                                AppSizes.titleLarge(
-                                                                  context,
-                                                                ),
+                                                            size: AppSizes.titleLarge(context),
                                                           );
                                                         }),
                                                       ),
-                                                      txtfield(
-                                                        hintText:
-                                                            "New Password",
-                                                      ),
+                                                      txtfield(hintText: "New Password"),
                                                       Center(
                                                         child: SizedBox(
-                                                          height:
-                                                              displaysize
-                                                                  .height *
-                                                              .055,
+                                                          height: displaysize.height * .055,
                                                           child: ElevatedButton(
-                                                            style:
-                                                                Bstyle.elevated_filled_apptheme(
-                                                                  context,
-                                                                ),
+                                                            style: Bstyle.elevated_filled_apptheme(
+                                                              context,
+                                                            ),
                                                             onPressed: () {
-                                                              _forgotpassword
-                                                                      .value =
-                                                                  false;
-                                                              _newpassword
-                                                                      .value =
-                                                                  false;
+                                                              _forgotpassword.value = false;
+                                                              _newpassword.value = false;
                                                             },
                                                             child: Padding(
                                                               padding: EdgeInsets.symmetric(
-                                                                horizontal:
-                                                                    displaysize
-                                                                        .width *
-                                                                    .04,
+                                                                horizontal: displaysize.width * .04,
                                                               ),
                                                               child: Txt(
                                                                 "Submit",
-                                                                font: Font
-                                                                    .semiBold,
-                                                                size:
-                                                                    AppSizes.titleLarge(
-                                                                      context,
-                                                                    ),
-                                                                color: theme
-                                                                    .colorScheme
-                                                                    .onPrimary,
+                                                                font: Font.bold,
+                                                                size: AppSizes.titleLarge(context),
+                                                                color: theme.colorScheme.onPrimary,
                                                               ),
                                                             ),
                                                           ),
@@ -255,45 +185,27 @@ class _AuthScreenState extends State<AuthScreen>
                                                 )
                                               /* If not new password, show OTP verification */
                                               : Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                   key: const ValueKey('forgot'),
                                                   children: [
                                                     Row(
                                                       mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
+                                                          MainAxisAlignment.spaceBetween,
                                                       children: [
                                                         GestureDetector(
                                                           onTap: () {
-                                                            _forgotpassword
-                                                                    .value =
-                                                                false;
+                                                            _forgotpassword.value = false;
                                                           },
                                                           child: Container(
-                                                            color: Colors
-                                                                .transparent,
-                                                            height:
-                                                                displaysize
-                                                                    .height *
-                                                                .04,
-                                                            width:
-                                                                displaysize
-                                                                    .height *
-                                                                .04,
+                                                            color: Colors.transparent,
+                                                            height: displaysize.height * .04,
+                                                            width: displaysize.height * .04,
                                                             child: Align(
-                                                              alignment: Alignment
-                                                                  .centerLeft,
+                                                              alignment: Alignment.centerLeft,
                                                               child: Image.asset(
-                                                                Appicons
-                                                                    .leftArrow,
-                                                                height:
-                                                                    displaysize
-                                                                        .height *
-                                                                    .02,
+                                                                Appicons.leftArrow,
+                                                                height: displaysize.height * .02,
                                                               ),
                                                             ),
                                                           ),
@@ -301,45 +213,28 @@ class _AuthScreenState extends State<AuthScreen>
                                                         Txt(
                                                           "OTP Verification",
                                                           height: 0,
-                                                          size:
-                                                              AppSizes.headlineMedium(
-                                                                context,
-                                                              ),
+                                                          size: AppSizes.headlineMedium(context),
                                                           font: Font.regular,
                                                         ),
                                                       ],
                                                     ),
                                                     Txt(
                                                       "Emp.ID : XXX",
-                                                      size:
-                                                          AppSizes.headlineSmall(
-                                                            context,
-                                                          ),
+                                                      size: AppSizes.headlineSmall(context),
                                                       font: Font.regular,
                                                     ),
                                                     Column(
                                                       children: [
                                                         txtotpfield(),
-                                                        SizedBox(
-                                                          height:
-                                                              displaysize
-                                                                  .height *
-                                                              .01,
-                                                        ),
+                                                        SizedBox(height: displaysize.height * .01),
                                                         Row(
                                                           mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
+                                                              MainAxisAlignment.spaceBetween,
                                                           children: [
                                                             Txt(
                                                               '05:00',
-                                                              size:
-                                                                  AppSizes.bodyMedium(
-                                                                    context,
-                                                                  ),
-                                                              color: theme
-                                                                  .colorScheme
-                                                                  .primary,
+                                                              size: AppSizes.bodyMedium(context),
+                                                              color: theme.colorScheme.primary,
                                                               font: Font.medium,
                                                             ),
                                                             Row(
@@ -348,42 +243,37 @@ class _AuthScreenState extends State<AuthScreen>
                                                                   TextSpan(
                                                                     children: [
                                                                       TextSpan(
-                                                                        text:
-                                                                            "Didn't got OTP ? ",
+                                                                        text: "Didn't got OTP ? ",
                                                                         style: TextStyle(
-                                                                          fontSize: AppSizes.bodyMedium(
-                                                                            context,
-                                                                          ),
-                                                                          fontWeight: Font
-                                                                              .medium
-                                                                              .weight,
+                                                                          fontSize:
+                                                                              AppSizes.bodyMedium(
+                                                                                context,
+                                                                              ),
+                                                                          fontWeight:
+                                                                              Font.medium.weight,
                                                                         ),
                                                                       ),
                                                                       TextSpan(
-                                                                        text:
-                                                                            "Resend",
+                                                                        text: "Resend",
                                                                         style: TextStyle(
-                                                                          fontSize: AppSizes.bodyMedium(
-                                                                            context,
-                                                                          ),
-                                                                          fontWeight: Font
-                                                                              .semiBold
-                                                                              .weight,
+                                                                          fontSize:
+                                                                              AppSizes.bodyMedium(
+                                                                                context,
+                                                                              ),
+                                                                          fontWeight:
+                                                                              Font.bold.weight,
                                                                         ),
                                                                       ),
                                                                     ],
                                                                   ),
                                                                 ),
                                                                 SizedBox(
-                                                                  width:
-                                                                      displaysize
-                                                                          .width *
-                                                                      .02,
+                                                                  width: displaysize.width * .02,
                                                                 ),
                                                                 txtfieldicon(
                                                                   context,
-                                                                  Appicons
-                                                                      .reload,
+                                                                  Appicons.reload,
+                                                                  
                                                                 ),
                                                               ],
                                                             ),
@@ -394,21 +284,13 @@ class _AuthScreenState extends State<AuthScreen>
                                                     Center(
                                                       child: SwipeToActionWidget(
                                                         onSwipe: () {
-                                                          _newpassword.value =
-                                                              true;
+                                                          _newpassword.value = true;
                                                         },
-                                                        label1:
-                                                            'Swipe to Confirm',
+                                                        label1: 'Swipe to Confirm',
                                                         label2: 'Verified',
-                                                        width:
-                                                            displaysize.width *
-                                                            .55,
-                                                        height:
-                                                            displaysize.height *
-                                                            .06,
-                                                        backgroundColor: theme
-                                                            .colorScheme
-                                                            .primary,
+                                                        width: displaysize.width * .55,
+                                                        height: displaysize.height * .06,
+                                                        backgroundColor: theme.colorScheme.primary,
                                                       ),
                                                     ),
                                                   ],
@@ -421,119 +303,76 @@ class _AuthScreenState extends State<AuthScreen>
                                           ),
                                           child: Column(
                                             key: const ValueKey('login'),
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
                                               Txt(
                                                 "Login",
-                                                size: AppSizes.displaySmall(
-                                                  context,
-                                                ),
+                                                size: AppSizes.displaySmall(context),
                                                 font: Font.medium,
                                                 height: .8,
                                               ),
                                               Column(
                                                 children: [
-                                                  txtfield(
-                                                    hintText: "Emp.ID / Email",
-                                                  ),
-                                                  SizedBox(
-                                                    height:
-                                                        displaysize.height *
-                                                        .02,
-                                                  ),
-                                                  txtfield(
-                                                    hintText: "Password",
-                                                  ),
+                                                  txtfield(hintText: "Emp.ID / Email"),
+                                                  SizedBox(height: displaysize.height * .02),
+                                                  txtfield(hintText: "Password"),
                                                 ],
                                               ),
                                               Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                 children: [
                                                   Material(
                                                     color: Colors.transparent,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                          displaysize.width *
-                                                              .03,
-                                                        ),
+                                                    borderRadius: BorderRadius.circular(
+                                                      displaysize.width * .03,
+                                                    ),
                                                     child: InkWell(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                            displaysize.width *
-                                                                .03,
-                                                          ),
-                                                      hoverColor: theme
-                                                          .colorScheme
-                                                          .secondary
+                                                      borderRadius: BorderRadius.circular(
+                                                        displaysize.width * .03,
+                                                      ),
+                                                      hoverColor: theme.colorScheme.secondary
                                                           .withOpacity(0.2),
-                                                      splashColor: theme
-                                                          .colorScheme
-                                                          .secondary
+                                                      splashColor: theme.colorScheme.secondary
                                                           .withOpacity(0.3),
                                                       onTap: () {
-                                                        _forgotpassword.value =
-                                                            true;
+                                                        _forgotpassword.value = true;
                                                       },
                                                       child: Container(
-                                                        height:
-                                                            displaysize.height *
-                                                            .055,
-                                                        width:
-                                                            displaysize.width /
-                                                            2.9,
+                                                        height: displaysize.height * .055,
+                                                        width: displaysize.width / 2.9,
                                                         decoration: BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius.circular(
-                                                                displaysize
-                                                                        .width *
-                                                                    .03,
-                                                              ),
-                                                          border: Border.all(
-                                                            color: Colors.black,
+                                                          borderRadius: BorderRadius.circular(
+                                                            displaysize.width * .03,
                                                           ),
+                                                          border: Border.all(color: Colors.black),
                                                         ),
                                                         child: Center(
                                                           child: Txt(
                                                             "Forgot Password",
-                                                            font: Font.semiBold,
+                                                            font: Font.bold,
                                                             height: 3,
                                                             space: 0,
-                                                            size:
-                                                                AppSizes.bodyMedium(
-                                                                  context,
-                                                                ),
+                                                            size: AppSizes.bodyMedium(context),
                                                           ),
                                                         ),
                                                       ),
                                                     ),
                                                   ),
                                                   SizedBox(
-                                                    height:
-                                                        displaysize.height *
-                                                        .055,
-                                                    width:
-                                                        displaysize.width / 2.9,
+                                                    height: displaysize.height * .055,
+                                                    width: displaysize.width / 2.9,
                                                     child: ElevatedButton(
-                                                      style:
-                                                          Bstyle.elevated_filled_apptheme(
-                                                            context,
-                                                          ),
+                                                      style: Bstyle.elevated_filled_apptheme(
+                                                        context,
+                                                      ),
                                                       onPressed: () {},
                                                       child: Txt(
                                                         "Login",
-                                                        font: Font.semiBold,
+                                                        font: Font.bold,
                                                         space: 1.5,
                                                         height: 0,
-                                                        size:
-                                                            AppSizes.titleMedium(
-                                                              context,
-                                                            ),
-                                                        color: theme
-                                                            .colorScheme
-                                                            .onPrimary,
+                                                        size: AppSizes.titleMedium(context),
+                                                        color: theme.colorScheme.onPrimary,
                                                       ),
                                                     ),
                                                   ),
@@ -559,10 +398,7 @@ class _AuthScreenState extends State<AuthScreen>
                             child: Column(
                               children: [
                                 SizedBox(height: displaysize.height * .06),
-                                Image.asset(
-                                  Appimages.applogo,
-                                  height: displaysize.height * .08,
-                                ),
+                                Image.asset(Appimages.applogo, height: displaysize.height * .08),
                               ],
                             ),
                             buttonwidget: Container(
@@ -572,9 +408,7 @@ class _AuthScreenState extends State<AuthScreen>
                                   Txt(
                                     'Explore',
                                     size: AppSizes.titleLarge(context),
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.onPrimary,
+                                    color: Theme.of(context).colorScheme.onPrimary,
                                   ),
                                   SizedBox(height: displaysize.height * .02),
                                   AuthWidget.upDownInfinite(
@@ -592,11 +426,7 @@ class _AuthScreenState extends State<AuthScreen>
                         )
                       : SizedBox.shrink(),
                 ),
-                Obx(
-                  () => _showDemoScreen.value
-                      ? NavigationScreen()
-                      : SizedBox.shrink(),
-                ),
+                Obx(() => _showDemoScreen.value ? NavigationScreen() : SizedBox.shrink()),
               ],
             ),
           ),
@@ -605,19 +435,3 @@ class _AuthScreenState extends State<AuthScreen>
     );
   }
 }
-
-class DemoScreen extends StatefulWidget {
-  const DemoScreen({super.key});
-
-  @override
-  State<DemoScreen> createState() => _DemoScreenState();
-}
-
-class _DemoScreenState extends State<DemoScreen> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: Text("Demo Page")));
-  }
-}
-
-// SwipeToActionWidget: Supports both double-side and single-side swipe
