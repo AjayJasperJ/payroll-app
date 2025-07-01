@@ -8,7 +8,6 @@ import 'package:payroll_hr/core/constants/images.dart';
 import 'package:payroll_hr/core/constants/sizes.dart';
 import 'package:payroll_hr/features/Auth/auth_widget.dart';
 import 'package:payroll_hr/features/Auth/login/login_screen.dart';
-import 'package:payroll_hr/features/Auth/otp/otp_screen.dart';
 import 'package:payroll_hr/features/Navigation/navigation_screen.dart';
 import 'package:payroll_hr/widgets/txtfield_widget.dart';
 
@@ -94,7 +93,7 @@ class _AuthLayoutState extends State<AuthLayout> {
                                 color: AppColors.container,
                                 borderRadius: BorderRadius.circular(15),
                               ),
-                              child: OtpScreen(),
+                              child: LoginScreen(forgotpassword: _forgotpassword),
                             ),
                           ],
                         )
