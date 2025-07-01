@@ -18,6 +18,7 @@ class Appicons {
   static const String verifyPerson = 'assets/icons/verify_person.png';
   static const String wealth = 'assets/icons/wealth.png';
   static const String hide = 'assets/icons/hide.png';
+  static const String spark = 'assets/icons/spark.png';
   static const String reload = 'assets/icons/reload.png';
   static const String right_arrow = 'assets/icons/right_arrow.png';
 }

@@ -2,10 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:payroll_hr/app.dart';
 import 'package:payroll_hr/core/constants/colors.dart';
 import 'package:payroll_hr/core/constants/images.dart';
+import 'package:payroll_hr/core/constants/sizes.dart';
 import 'package:payroll_hr/features/Navigation/home/home_screen.dart';
 import 'package:payroll_hr/features/Navigation/message/message_screen.dart';
 import 'package:payroll_hr/features/Navigation/navigation_widget.dart';
+import 'package:payroll_hr/features/Navigation/profile/attendance/attendance_screen.dart';
+import 'package:payroll_hr/features/Navigation/profile/payrolls/payroll_screen.dart';
 import 'package:payroll_hr/features/Navigation/profile/profile_screen.dart';
+import 'package:payroll_hr/features/Navigation/profile/settings/notification_screen.dart';
+import 'package:payroll_hr/widgets/animations_widget.dart';
+import 'package:payroll_hr/widgets/txtfield_widget.dart';
 
 class NavigationScreen extends StatefulWidget {
   const NavigationScreen({super.key});
@@ -14,7 +20,7 @@ class NavigationScreen extends StatefulWidget {
   State<NavigationScreen> createState() => _NavigationScreenState();
 }
 
-class _NavigationScreenState extends State<NavigationScreen> with SingleTickerProviderStateMixin {
+class _NavigationScreenState extends State<NavigationScreen> with TickerProviderStateMixin {
   final bottom_fielddata = [
     {'title': 'Home', 'icon': Appicons.home},
     {'title': 'msg', 'icon': Appicons.msg},
@@ -31,6 +37,7 @@ class _NavigationScreenState extends State<NavigationScreen> with SingleTickerPr
   bool _sidebarExpanded = false;
   late AnimationController _sidebarController;
   late Animation<double> _sidebarWidthAnim;
+  late AnimationController _controller;
 
   @override
   void initState() {
@@ -39,6 +46,7 @@ class _NavigationScreenState extends State<NavigationScreen> with SingleTickerPr
       vsync: this,
       duration: const Duration(milliseconds: 400),
     );
+    _controller = AnimationController(vsync: this, duration: const Duration(seconds: 2))..repeat();
     _sidebarWidthAnim = Tween<double>(
       begin: displaysize.width * .2 - displaysize.height * .01,
       end: displaysize.width * .65,
@@ -48,6 +56,7 @@ class _NavigationScreenState extends State<NavigationScreen> with SingleTickerPr
   @override
   void dispose() {
     _sidebarController.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -65,10 +74,17 @@ class _NavigationScreenState extends State<NavigationScreen> with SingleTickerPr
     }
   }
 
-  final pages = [HomeScreen(), MessageScreen(), ProfileScreen()];
+  final pages = [
+    HomeScreen(),
+    MessageScreen(),
+    ProfileScreen(),
+    NotificationScreen(),
+    AttendanceScreen(),
+    PayrollScreen(),
+  ];
   @override
   Widget build(BuildContext context) {
-    final notificationbar_height = displaysize.height * .04;
+    final notificationbar_height = displaysize.height * .06;
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -111,7 +127,42 @@ class _NavigationScreenState extends State<NavigationScreen> with SingleTickerPr
                                     ),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(15),
-                                      color: Colors.white,
+                                      color: Colors.black,
+                                    ),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(
+                                        15,
+                                      ), // match container radius
+                                      child: AnimatedBuilder(
+                                        animation: _controller,
+                                        builder: (context, child) {
+                                          return CustomPaint(
+                                            painter: LighthousePainter(_controller.value),
+                                            child: Center(
+                                              child: Stack(
+                                                clipBehavior: Clip.none,
+                                                children: [
+                                                  Txt(
+                                                    'Generate',
+                                                    color: Colors.white,
+                                                    font: Font.regular,
+                                                    space: 1,
+                                                    size: AppSizes.titleMedium(context),
+                                                  ),
+                                                  Positioned(
+                                                    top: -10,
+                                                    left: -15,
+                                                    child: Image.asset(
+                                                      Appicons.spark,
+                                                      height: displaysize.height * .025,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -130,6 +181,19 @@ class _NavigationScreenState extends State<NavigationScreen> with SingleTickerPr
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(15),
                                       color: Colors.white,
+                                    ),
+                                    padding: EdgeInsets.only(
+                                      right: constraints.maxWidth * .01,
+                                      left: constraints.maxWidth * .05,
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Txt('XXX'),
+                                        CircleAvatar(
+                                          backgroundImage: AssetImage(Appimages.profile),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),

@@ -13,21 +13,24 @@ class MessageScreen extends StatefulWidget {
 class _MessageScreenState extends State<MessageScreen> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Txt('Messages', font: Font.regular, size: displaysize.height * .024),
-        Container(
-          height: height_main * .88,
-          child: ListView.builder(
-            itemCount: 20,
-            itemBuilder: (BuildContext context, int index) {
-              return CListView(index: index);
-            },
+    return Scaffold(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          SizedBox(height: height_main * .02),
+          Txt('Messages', font: Font.regular, size: displaysize.height * .024),
+          SizedBox(height: height_main * .02),
+          Expanded(
+            child: ListView.builder(
+              itemCount: 20,
+              itemBuilder: (BuildContext context, int index) {
+                return CListView(index: index);
+              },
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
@@ -66,6 +69,7 @@ class CListView extends StatelessWidget {
             ),
           ],
         ),
+        SizedBox(height: displaysize.height * .01),
       ],
     );
   }
