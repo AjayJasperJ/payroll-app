@@ -43,13 +43,13 @@ class Txt extends StatelessWidget {
     super.key,
     this.size = 16,
     this.font = Font.regular,
-    this.color,
+    this.color = Colors.black,
     this.decorate = Decorate.none,
-    this.max,
+    this.max = 1,
     this.align,
     this.clip,
-    this.space,
-    this.height,
+    this.space = 0,
+    this.height = 0,
   });
 
   @override
@@ -156,6 +156,12 @@ class _txtfieldState extends State<txtfield> {
       onTap: widget.onTap,
       controller: _controller,
       focusNode: _focusNode,
+      style: TextStyle(
+        wordSpacing: 2,
+        fontSize: AppSizes.titleLarge(context),
+        fontWeight: Font.regular.weight,
+        color: Colors.black,
+      ),
       textInputAction:
           widget.textInputAction ??
           (widget.nextFocusNode != null ? TextInputAction.next : TextInputAction.done),
@@ -169,11 +175,12 @@ class _txtfieldState extends State<txtfield> {
         filled: true,
         suffixIcon: widget.suffixIcon,
         hintText: widget.hintText,
+
         hintStyle: TextStyle(
           wordSpacing: 2,
           fontSize: AppSizes.titleLarge(context),
-          fontWeight: Font.medium.weight,
-          color: Colors.grey.shade600,
+          fontWeight: Font.regular.weight,
+          color: Colors.grey.shade400,
         ),
         hoverColor: AppColors.container.withValues(alpha: .2),
         enabledBorder: OutlineInputBorder(
@@ -189,6 +196,7 @@ class _txtfieldState extends State<txtfield> {
               : BorderSide.none,
         ),
       ),
+      cursorHeight: displaysize.height * 0.03,
     );
   }
 
@@ -301,7 +309,7 @@ class _txtotpfieldState extends State<txtotpfield> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: List.generate(widget.length, (index) {
         return SizedBox(
-          width: displaysize.height * .08,
+          width: displaysize.height * .06,
           height: displaysize.height * .08,
           child: RawKeyboardListener(
             focusNode: FocusNode(),
@@ -321,15 +329,31 @@ class _txtotpfieldState extends State<txtotpfield> {
                   FilteringTextInputFormatter.digitsOnly,
                   LengthLimitingTextInputFormatter(1),
                 ],
-                style: Theme.of(context).textTheme.bodyLarge,
+                style: TextStyle(
+                  fontSize: AppSizes.titleLarge(context),
+                  fontWeight: Font.regular.weight,
+                  color: Colors.black,
+                ),
                 decoration: InputDecoration(
+                  hintText: '0',
+
+                  hintStyle: TextStyle(
+                    fontSize: AppSizes.titleLarge(context),
+                    fontWeight: Font.regular.weight,
+                    color: Colors.grey.shade400,
+                  ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(displaysize.width * .03),
+                    borderSide: BorderSide.none,
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(displaysize.width * .03),
+                    borderSide: BorderSide.none,
                   ),
+                  fillColor: Theme.of(context).colorScheme.secondary,
+                  filled: true,
                 ),
+
                 onChanged: (value) => _handleTextChange(index, value),
               ),
             ),

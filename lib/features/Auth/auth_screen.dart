@@ -65,7 +65,7 @@ class _AuthScreenState extends State<AuthScreen> with SingleTickerProviderStateM
     return Scaffold(
       body: SingleChildScrollView(
         child: SizedBox(
-          height: MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top,
+          height: MediaQuery.of(context).size.height,
           child: Stack(
             children: [
               Obx(

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:payroll_hr/app.dart';
 import 'package:payroll_hr/features/Navigation/home/home_screen.dart';
@@ -46,6 +47,7 @@ class AuthWidget {
     required Widget child,
     required Widget buttonwidget,
     void Function()? onFullyExpanded,
+    Widget? targetPage, // New: page to push after full expand
   }) {
     return _SlidableCurtainWidget(
       buttonwidget: buttonwidget,
@@ -56,6 +58,7 @@ class AuthWidget {
       circleRadius: 10,
       onFullyExpanded: onFullyExpanded,
       child: child,
+      targetPage: targetPage, // Pass to widget
     );
   }
 }
@@ -111,6 +114,7 @@ class _SlidableCurtainWidget extends StatefulWidget {
   final double maxHeightRatio; // 0.0 to 1.0
   final double circleRadius;
   final void Function()? onFullyExpanded;
+  final Widget? targetPage; // New: page to push after full expand
 
   const _SlidableCurtainWidget({
     required this.color,
@@ -121,6 +125,7 @@ class _SlidableCurtainWidget extends StatefulWidget {
     required this.maxHeightRatio,
     required this.circleRadius,
     this.onFullyExpanded,
+    this.targetPage,
   });
 
   @override
@@ -154,6 +159,36 @@ class __SlidableCurtainWidgetState extends State<_SlidableCurtainWidget>
       setState(() {
         _opacity = 0.0;
       });
+      // New: Push target page with fade transition if provided
+      if (widget.targetPage != null) {
+        Future.delayed(const Duration(milliseconds: 350), () {
+          if (mounted) {
+            Navigator.of(context).push(
+              PageRouteBuilder(
+                opaque: false,
+                pageBuilder: (context, animation, secondaryAnimation) {
+                  return FadeTransition(opacity: animation, child: widget.targetPage!);
+                },
+                transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                  return Stack(
+                    children: [
+                      FadeTransition(
+                        opacity: Tween<double>(begin: 1.0, end: 0.0).animate(animation),
+                        child: Scaffold(
+                          backgroundColor: Colors.transparent,
+                          body: Container(color: Colors.transparent),
+                        ),
+                      ),
+                      FadeTransition(opacity: animation, child: child),
+                    ],
+                  );
+                },
+                transitionDuration: const Duration(milliseconds: 500),
+              ),
+            );
+          }
+        });
+      }
     } else if (_controller.value < 0.999) {
       _hasCalledFullyExpanded = false;
       setState(() {
@@ -172,10 +207,10 @@ class __SlidableCurtainWidgetState extends State<_SlidableCurtainWidget>
 
   void _onDragUpdate(DragUpdateDetails details, double screenHeight) {
     final delta = details.primaryDelta! / screenHeight;
-    final newValue = (_controller.value + delta).clamp(
-      widget.minHeightRatio,
-      widget.maxHeightRatio,
-    );
+    // Use a percentage of screenHeight for arc geometry to be responsive
+    final double minArcHeight = screenHeight * 0.28; // 28% of screen height
+    final double minCurtainRatio = minArcHeight / screenHeight;
+    final newValue = (_controller.value + delta).clamp(minCurtainRatio, widget.maxHeightRatio);
     _controller.value = newValue;
   }
 
@@ -206,11 +241,6 @@ class __SlidableCurtainWidgetState extends State<_SlidableCurtainWidget>
     return Stack(
       children: [
         AnimatedOpacity(
-          opacity: _showDemoScreen ? 1.0 : 0.0,
-          duration: const Duration(milliseconds: 350),
-          child: _showDemoScreen ? HomeScreen() : const SizedBox.shrink(),
-        ),
-        AnimatedOpacity(
           opacity: _opacity,
           duration: const Duration(milliseconds: 350),
           child: AnimatedBuilder(
@@ -234,7 +264,7 @@ class __SlidableCurtainWidgetState extends State<_SlidableCurtainWidget>
                   Positioned(
                     left: 0,
                     right: 0,
-                    bottom: widget.circleRadius * 3,
+                    bottom: widget.circleRadius * 2,
                     child: GestureDetector(
                       onVerticalDragUpdate: (details) => _onDragUpdate(details, size.height),
                       onHorizontalDragUpdate: _onHorizontalDragUpdate,
@@ -265,18 +295,26 @@ class _ThreeSideRectOneCircleClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     final path = Path();
-    final isFullScreen = height >= displaysize.height;
+    final double t = (height / displaysize.height).clamp(0.0, 1.0);
+    // Use a curve for a smooth transition
+    final double maxArcDepth = (size.height * 0.28).clamp(100.0, 320.0);
+    final double arcDepth = maxArcDepth * (1 - Curves.easeInOut.transform(t));
+    final double arcY = height - arcDepth;
     path.moveTo(0, 0);
-    if (isFullScreen) {
-      // Rectangle when fully expanded
-      path.lineTo(0, size.height);
-      path.lineTo(size.width, size.height);
+    if (arcDepth > 1.0) {
+      // Smooth, round bottom edge with eased control point
+      path.lineTo(0, arcY);
+      path.quadraticBezierTo(
+        size.width / 2,
+        arcY + arcDepth * (1.2 + 0.8 * (1 - Curves.easeInOut.transform(t))),
+        size.width,
+        arcY,
+      );
       path.lineTo(size.width, 0);
     } else {
-      // 3 straight sides, bottom is a perfect semicircle using quadraticBezierTo
-      final arcY = height - 150;
-      path.lineTo(0, arcY + 50);
-      path.quadraticBezierTo(size.width / 2, arcY + size.width / 2, size.width, arcY + 50);
+      // Fully expanded, flat bottom
+      path.lineTo(0, size.height);
+      path.lineTo(size.width, size.height);
       path.lineTo(size.width, 0);
     }
     path.close();

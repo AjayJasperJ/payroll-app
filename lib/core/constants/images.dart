@@ -1,6 +1,7 @@
 class Appimages {
   static const String applogo = 'assets/images/Logo.png';
   static const String profile = 'assets/images/profile.png';
+  static const String generate = 'assets/images/generate.png';
 }
 
 class Appicons {

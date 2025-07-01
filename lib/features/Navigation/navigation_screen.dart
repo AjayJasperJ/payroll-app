@@ -84,13 +84,10 @@ class _NavigationScreenState extends State<NavigationScreen> with TickerProvider
   ];
   @override
   Widget build(BuildContext context) {
-    final notificationbar_height = displaysize.height * .06;
+    final notificationbar_height = displaysize.height * .04;
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
-          // color: AppColors.primary,
-          gradient: AppColors.gradentbackground,
-        ),
+        decoration: BoxDecoration(gradient: AppColors.gradentbackground),
         child: LayoutBuilder(
           builder: (context, constraints) {
             height_main = constraints.maxHeight * .82 - notificationbar_height;
@@ -139,24 +136,13 @@ class _NavigationScreenState extends State<NavigationScreen> with TickerProvider
                                           return CustomPaint(
                                             painter: LighthousePainter(_controller.value),
                                             child: Center(
-                                              child: Stack(
-                                                clipBehavior: Clip.none,
+                                              child: Column(
                                                 children: [
-                                                  Txt(
-                                                    'Generate',
-                                                    color: Colors.white,
-                                                    font: Font.regular,
-                                                    space: 1,
-                                                    size: AppSizes.titleMedium(context),
+                                                  Image.asset(
+                                                    Appimages.generate,
+                                                    height: displaysize.height * .035,
                                                   ),
-                                                  Positioned(
-                                                    top: -10,
-                                                    left: -15,
-                                                    child: Image.asset(
-                                                      Appicons.spark,
-                                                      height: displaysize.height * .025,
-                                                    ),
-                                                  ),
+                                                  SizedBox(height: displaysize.height * .01),
                                                 ],
                                               ),
                                             ),

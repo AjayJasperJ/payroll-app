@@ -7,17 +7,11 @@ class Bstyle {
       // splashFactory: InkSplash.splashFactory,
       elevation: WidgetStatePropertyAll(0),
       shape: WidgetStatePropertyAll(
-        RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(displaysize.width * .03),
-        ),
+        RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       ),
-      backgroundColor: WidgetStatePropertyAll(
-        Theme.of(context).colorScheme.primary,
-      ),
+      backgroundColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.primary),
     ).copyWith(
-      overlayColor: WidgetStateProperty.resolveWith<Color?>((
-        Set<WidgetState> states,
-      ) {
+      overlayColor: WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
         if (states.contains(WidgetState.pressed)) {
           return Theme.of(context).colorScheme.onPrimary.withValues(alpha: 0.2);
         }
@@ -30,19 +24,15 @@ class Bstyle {
     return ButtonStyle(
       shape: WidgetStatePropertyAll(
         RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(displaysize.width * .03),
-          side: BorderSide(color: Colors.black, width: 1.3),
+          borderRadius: BorderRadius.circular(10),
+          side: BorderSide(color: Colors.black, width: 1),
         ),
       ),
       // splashFactory: InkSplash.splashFactory,
       elevation: WidgetStatePropertyAll(0),
-      backgroundColor: WidgetStatePropertyAll(
-        Theme.of(context).colorScheme.primaryContainer,
-      ),
+      backgroundColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.primaryContainer),
     ).copyWith(
-      overlayColor: WidgetStateProperty.resolveWith<Color?>((
-        Set<WidgetState> states,
-      ) {
+      overlayColor: WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
         if (states.contains(WidgetState.pressed)) {
           return Colors.grey.withValues(alpha: .1);
         } else if (states.contains(WidgetState.hovered)) {
@@ -58,25 +48,16 @@ class Bstyle {
       shape: WidgetStatePropertyAll(
         RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(displaysize.width * .03),
-          side: BorderSide(
-            color: Theme.of(context).colorScheme.secondary,
-            width: 1,
-          ),
+          side: BorderSide(color: Theme.of(context).colorScheme.secondary, width: 1),
         ),
       ),
       // splashFactory: InkSplash.splashFactory,
       elevation: WidgetStatePropertyAll(0),
-      backgroundColor: WidgetStatePropertyAll(
-        Theme.of(context).colorScheme.surface,
-      ),
+      backgroundColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.surface),
     ).copyWith(
-      overlayColor: WidgetStateProperty.resolveWith<Color?>((
-        Set<WidgetState> states,
-      ) {
+      overlayColor: WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
         if (states.contains(WidgetState.pressed)) {
-          return Theme.of(
-            context,
-          ).colorScheme.surfaceContainer.withValues(alpha: .2);
+          return Theme.of(context).colorScheme.surfaceContainer.withValues(alpha: .2);
         } else if (states.contains(WidgetState.hovered)) {
           return Theme.of(context).colorScheme.surface.withValues(alpha: .0);
         }
