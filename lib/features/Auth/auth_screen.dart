@@ -69,88 +69,94 @@ class _AuthLayoutState extends State<AuthLayout> {
         return true;
       },
       child: Scaffold(
-        body: Stack(
-          children: [
-            LayoutBuilder(
-              builder: (context, constraints) {
-                return Center(
-                  child: Obx(
-                    () => !_showDemoScreen.value
-                        ? Column(
-                            children: [
-                              SizedBox(height: constraints.maxHeight * .33),
-                              Txt(
-                                "Welcome!",
-                                size: AppSizes.displayMedium(context),
-                                font: Font.medium,
-                              ),
-                              SizedBox(height: constraints.maxHeight * .04),
-                              Container(
-                                height: _authStack.last == 'reset'
-                                    ? constraints.maxHeight * .5
-                                    : constraints.maxHeight * .4,
-                                width: constraints.maxWidth * .82,
-                                padding: EdgeInsets.symmetric(
-                                  vertical: constraints.maxHeight * .01,
-                                  horizontal: constraints.maxWidth * .03,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: AppColors.container,
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                                child: AnimatedSwitcher(
-                                  duration: _fadeDuration,
-                                  child: _getAuthScreen(),
-                                ),
-                              ),
-                            ],
-                          )
-                        : SizedBox.shrink(),
-                  ),
-                );
-              },
-            ),
-            Align(
-              alignment: Alignment.topCenter,
-              child: AuthWidget.SlidableCurtainWidget(
-                targetPage: NavigationScreen(),
-                color: Theme.of(context).colorScheme.primary,
-                child: Column(
-                  children: [
-                    SizedBox(height: displaysize.height * .06),
-                    Image.asset(Appimages.applogo, height: displaysize.height * .08),
-                  ],
-                ),
-                buttonwidget: Container(
-                  height: displaysize.height * .08,
-                  color: Colors.transparent,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Txt(
-                        'Explore',
-                        size: AppSizes.titleLarge(context),
-                        color: Theme.of(context).colorScheme.onPrimary,
+        body: SingleChildScrollView(
+          child: SizedBox(
+            height: displaysize.height,
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                LayoutBuilder(
+                  builder: (context, constraints) {
+                    return Center(
+                      child: Obx(
+                        () => !_showDemoScreen.value
+                            ? Column(
+                                children: [
+                                  SizedBox(height: constraints.maxHeight * .33),
+                                  Txt(
+                                    "Welcome!",
+                                    size: AppSizes.displayMedium(context),
+                                    font: Font.medium,
+                                  ),
+                                  SizedBox(height: constraints.maxHeight * .04),
+                                  Container(
+                                    height: _authStack.last == 'reset'
+                                        ? constraints.maxHeight * .5
+                                        : constraints.maxHeight * .45,
+                                    width: constraints.maxWidth * .82,
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: constraints.maxHeight * .01,
+                                      horizontal: constraints.maxWidth * .03,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: AppColors.container,
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    child: AnimatedSwitcher(
+                                      duration: _fadeDuration,
+                                      child: _getAuthScreen(),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : SizedBox.shrink(),
                       ),
-                      SizedBox(height: displaysize.height * .01),
-                      AuthWidget.upDownInfinite(
-                        offset: 5,
-                        child: Image.asset(Appicons.download, height: displaysize.height * .03),
+                    );
+                  },
+                ),
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: AuthWidget.SlidableCurtainWidget(
+                    targetPage: NavigationScreen(),
+                    color: Theme.of(context).colorScheme.primary,
+                    child: Column(
+                      children: [
+                        SizedBox(height: displaysize.height * .06),
+                        Image.asset(Appimages.applogo, height: displaysize.height * .08),
+                      ],
+                    ),
+                    buttonwidget: Container(
+                      height: displaysize.height * .08,
+                      color: Colors.transparent,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Txt(
+                            'Explore',
+                            size: AppSizes.titleLarge(context),
+                            color: Theme.of(context).colorScheme.onPrimary,
+                          ),
+                          SizedBox(height: displaysize.height * .01),
+                          AuthWidget.upDownInfinite(
+                            offset: 5,
+                            child: Image.asset(Appicons.download, height: displaysize.height * .03),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
+                    onFullyExpanded: () {
+                      _hideStackContent.value = true;
+                      Future.delayed(const Duration(milliseconds: 0), () {
+                        if (mounted) {
+                          _showDemoScreen.value = true;
+                        }
+                      });
+                    },
                   ),
                 ),
-                onFullyExpanded: () {
-                  _hideStackContent.value = true;
-                  Future.delayed(const Duration(milliseconds: 0), () {
-                    if (mounted) {
-                      _showDemoScreen.value = true;
-                    }
-                  });
-                },
-              ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

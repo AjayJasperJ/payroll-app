@@ -49,7 +49,7 @@ class Txt extends StatelessWidget {
     this.align,
     this.clip,
     this.space = 0,
-    this.height = 0,
+    this.height = .8,
   });
 
   @override
@@ -171,6 +171,8 @@ class _txtfieldState extends State<txtfield> {
       inputFormatters: widget.inputformat,
       keyboardType: widget.keyboardtype,
       decoration: InputDecoration(
+        isDense: true, // Reduce vertical height
+        contentPadding: EdgeInsets.symmetric(vertical: displaysize.height * 0.012, horizontal: 16),
         fillColor: Theme.of(context).colorScheme.secondary,
         filled: true,
         suffixIcon: widget.suffixIcon,
@@ -335,6 +337,10 @@ class _txtotpfieldState extends State<txtotpfield> {
                   color: Colors.black,
                 ),
                 decoration: InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(
+                    vertical: displaysize.height * 0.012,
+                    horizontal: 16,
+                  ),
                   hintText: '0',
 
                   hintStyle: TextStyle(

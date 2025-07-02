@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:payroll_hr/app.dart';
 import 'package:payroll_hr/core/constants/images.dart';
 import 'package:payroll_hr/core/constants/sizes.dart';
@@ -59,7 +58,7 @@ class _ResetScreenState extends State<ResetScreen> {
                 {'title': 'Email ID : XXX@x.com'},
                 {'title': 'Phone No : XXXXXXXXXX'},
               ];
-              return Txt(field_data[index]['title'], size: AppSizes.titleLarge(context));
+              return Txt(field_data[index]['title'], height: 0, size: AppSizes.titleLarge(context));
             }),
           ),
           txtfield(hintText: "New Password"),

@@ -3,6 +3,7 @@ import 'package:get/state_manager.dart';
 import 'package:payroll_hr/app.dart';
 import 'package:payroll_hr/core/constants/images.dart';
 import 'package:payroll_hr/core/constants/sizes.dart';
+import 'package:payroll_hr/features/Navigation/navigation_screen.dart';
 import 'package:payroll_hr/widgets/buttonstyle_widget.dart';
 import 'package:payroll_hr/widgets/txtfield_widget.dart';
 
@@ -35,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Center(
-          child: Txt('Login', size: AppSizes.displaySmall(context), font: Font.medium, height: .8),
+          child: Txt('Login', size: AppSizes.displaySmall(context), font: Font.medium),
         ),
         Column(
           children: [
@@ -46,24 +47,22 @@ class _LoginScreenState extends State<LoginScreen> {
                 hintText: "Password",
                 hidepass: password_hide.value,
                 controller: _passwordController,
-                suffixIcon: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        password_hide.value = !password_hide.value;
-                      },
-                      child: Container(
-                        child: Image.asset(
-                          Appicons.hide,
-                          height: displaysize.height * .025,
-                          color: password_hide.value ? Colors.black : theme.colorScheme.primary,
-                        ),
-                        color: Colors.transparent,
+                suffixIcon: InkWell(
+                  onTap: () {
+                    password_hide.value = !password_hide.value;
+                  },
+                  child: Container(
+                    height: displaysize.height * .025,
+                    width: displaysize.height * .025,
+                    child: Center(
+                      child: Image.asset(
+                        Appicons.hide,
+                        height: displaysize.height * .025,
+                        color: password_hide.value ? Colors.black : theme.colorScheme.primary,
                       ),
                     ),
-                    SizedBox(width: displaysize.width * .01),
-                  ],
+                    color: Colors.transparent,
+                  ),
                 ),
               ),
             ),
@@ -104,12 +103,34 @@ class _LoginScreenState extends State<LoginScreen> {
               width: displaysize.width * .35,
               child: ElevatedButton(
                 style: Bstyle.elevated_filled_apptheme(context),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(
+                    PageRouteBuilder(
+                      opaque: false,
+                      pageBuilder: (context, animation, secondaryAnimation) {
+                        return FadeTransition(opacity: animation, child: NavigationScreen());
+                      },
+                      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                        return Stack(
+                          children: [
+                            FadeTransition(
+                              opacity: Tween<double>(begin: 1.0, end: 0.0).animate(animation),
+                              child: Scaffold(
+                                backgroundColor: Colors.transparent,
+                                body: Container(color: Colors.transparent),
+                              ),
+                            ),
+                            FadeTransition(opacity: animation, child: child),
+                          ],
+                        );
+                      },
+                      transitionDuration: const Duration(milliseconds: 500),
+                    ),
+                  );
+                },
                 child: Txt(
                   "Login",
                   font: Font.medium,
-                  space: 1.5,
-                  height: 0,
                   size: AppSizes.titleMedium(context),
                   color: theme.colorScheme.onPrimary,
                 ),

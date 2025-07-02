@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:payroll_hr/app.dart';
 import 'package:payroll_hr/core/constants/colors.dart';
 import 'package:payroll_hr/core/constants/images.dart';
-import 'package:payroll_hr/core/constants/sizes.dart';
 import 'package:payroll_hr/features/Navigation/home/home_screen.dart';
 import 'package:payroll_hr/features/Navigation/message/message_screen.dart';
 import 'package:payroll_hr/features/Navigation/navigation_widget.dart';
