@@ -20,13 +20,13 @@ class _MessageScreenState extends State<MessageScreen> {
         children: [
           SizedBox(height: height_main * .02),
           Txt('Messages', font: Font.regular, size: displaysize.height * .024),
-          SizedBox(height: height_main * .02),
+          SizedBox(height: height_main * .025),
           Expanded(
             child: MediaQuery.removePadding(
               context: context,
               removeTop: true,
               child: ListView.builder(
-                itemCount: 20,
+                itemCount: 5,
                 itemBuilder: (BuildContext context, int index) {
                   return CListView(index: index);
                 },
@@ -46,35 +46,50 @@ class CListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(height: displaysize.height * .01),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                CircleAvatar(radius: displaysize.height * .02),
-                SizedBox(width: displaysize.height * .01),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Txt("Username $index", height: 0, size: AppSizes.titleMedium(context)),
-                    Txt("Latest mesg received", height: 0, size: AppSizes.labelMedium(context)),
-                  ],
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Txt('10:38', size: AppSizes.labelSmall(context)),
-                SizedBox(width: displaysize.height * .01),
-              ],
-            ),
-          ],
-        ),
-        SizedBox(height: displaysize.height * .01),
-      ],
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: height_main * .005),
+      padding: EdgeInsets.symmetric(vertical: height_main * .015, horizontal: width_main * .02),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        color: Theme.of(context).colorScheme.primaryContainer,
+      ),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  CircleAvatar(radius: displaysize.height * .02, backgroundColor: Colors.grey[100]),
+                  SizedBox(width: displaysize.height * .01),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Txt("Username $index", height: 1.5, size: AppSizes.titleSmall(context)),
+                      Txt("Latest mesg received", height: 0, size: AppSizes.labelSmall(context)),
+                    ],
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  Txt('10:38 am', size: AppSizes.labelSmall(context) - 2),
+                  SizedBox(height: height_main * .01),
+                  CircleAvatar(
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    radius: 8,
+                    child: Txt(
+                      '${index}',
+                      size: AppSizes.labelSmall(context) - 2,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

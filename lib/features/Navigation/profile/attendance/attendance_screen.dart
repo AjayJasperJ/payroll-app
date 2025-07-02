@@ -56,7 +56,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                       dropdownBorderRadius: 15,
                       buttonHeight: height_main * .05,
                       buttonWidth: width_main * .35,
-                      dropdownHeight: 250,
+                      dropdownHeight: height_main * .2,
                       borderColor: Colors.black,
                       selectedColor: Theme.of(context).colorScheme.primary,
                       defaultValue: _selectedMonth.toString(),
@@ -73,7 +73,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                       dropdownBorderRadius: 15,
                       buttonHeight: height_main * .05,
                       buttonWidth: width_main * .3,
-                      dropdownHeight: 250,
+                      dropdownHeight: height_main * .2,
                       borderColor: Colors.black,
                       selectedColor: Theme.of(context).colorScheme.primary,
                       defaultValue: _selectedYear.toString(),
@@ -98,21 +98,56 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                 borderRadius: BorderRadius.circular(15),
                 color: Theme.of(context).colorScheme.primary,
               ),
+              padding: EdgeInsets.symmetric(
+                horizontal: width_main * .04,
+                vertical: height_main * .02,
+              ),
               child: Center(
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Txt(
-                          '${months[_selectedDayMonth! - 2]} $_selectedDay $_selectedDayYear',
+                          '${months[_selectedDayMonth! - 1]}, ${_selectedDay}${_selectedDay == 1
+                              ? 'st'
+                              : _selectedDay == 2
+                              ? 'nd'
+                              : _selectedDay == 3
+                              ? 'rd'
+                              : 'th'} $_selectedDayYear',
                           color: Colors.white,
+                          size: AppSizes.titleSmall(context),
                         ),
                         Container(
-                          color: Colors.lightGreen,
-                          height: height_main * .06,
-                          width: width_main * .35,
+                          height: height_main * .04,
+                          width: width_main * .32,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(height_main),
+                            color: Color.fromRGBO(207, 247, 211, 1),
+                          ),
+                          child: Center(
+                            child: Txt(
+                              'Whole Day',
+                              color: Colors.green,
+                              size: AppSizes.titleSmall(context),
+                            ),
+                          ),
                         ),
                       ],
+                    ),
+                    SizedBox(height: height_main * .02),
+                    Txt(
+                      'Punch In : 9:30 AM',
+                      color: Colors.white,
+                      size: AppSizes.labelMedium(context),
+                    ),
+                    SizedBox(height: height_main * .02),
+                    Txt(
+                      'Punch Out : 6:59 PM',
+                      color: Colors.white,
+                      size: AppSizes.labelMedium(context),
                     ),
                   ],
                 ),
@@ -192,7 +227,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                             Text(
                               weekName,
                               style: TextStyle(
-                                fontSize: AppSizes.labelSmall(context),
+                                fontSize: AppSizes.labelSmall(context) - 2,
                                 color: isToday
                                     ? Colors.black
                                     : (_selectedDay == dateForCell &&

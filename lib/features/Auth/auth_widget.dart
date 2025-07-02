@@ -160,7 +160,7 @@ class __SlidableCurtainWidgetState extends State<_SlidableCurtainWidget>
       if (widget.targetPage != null) {
         Future.delayed(const Duration(milliseconds: 350), () {
           if (mounted) {
-            Navigator.of(context).push(
+            Navigator.of(context).pushReplacement(
               PageRouteBuilder(
                 opaque: false,
                 pageBuilder: (context, animation, secondaryAnimation) {
