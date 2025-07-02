@@ -22,11 +22,15 @@ class _MessageScreenState extends State<MessageScreen> {
           Txt('Messages', font: Font.regular, size: displaysize.height * .024),
           SizedBox(height: height_main * .02),
           Expanded(
-            child: ListView.builder(
-              itemCount: 20,
-              itemBuilder: (BuildContext context, int index) {
-                return CListView(index: index);
-              },
+            child: MediaQuery.removePadding(
+              context: context,
+              removeTop: true,
+              child: ListView.builder(
+                itemCount: 20,
+                itemBuilder: (BuildContext context, int index) {
+                  return CListView(index: index);
+                },
+              ),
             ),
           ),
         ],
@@ -55,8 +59,8 @@ class CListView extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Txt("Username $index", size: AppSizes.titleMedium(context)),
-                    Txt("Latest mesg received", size: AppSizes.labelMedium(context)),
+                    Txt("Username $index", height: 0, size: AppSizes.titleMedium(context)),
+                    Txt("Latest mesg received", height: 0, size: AppSizes.labelMedium(context)),
                   ],
                 ),
               ],

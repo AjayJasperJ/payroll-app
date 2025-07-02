@@ -9,7 +9,7 @@ import 'package:payroll_hr/features/Navigation/profile/attendance/attendance_scr
 import 'package:payroll_hr/features/Navigation/profile/payrolls/payroll_screen.dart';
 import 'package:payroll_hr/features/Navigation/profile/profile_screen.dart';
 import 'package:payroll_hr/features/Navigation/profile/settings/notification_screen.dart';
-import 'package:payroll_hr/widgets/animations_widget.dart';
+import 'package:payroll_hr/widgets/buttonstyle_widget.dart';
 import 'package:payroll_hr/widgets/txtfield_widget.dart';
 
 class NavigationScreen extends StatefulWidget {

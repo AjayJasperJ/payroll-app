@@ -19,6 +19,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
     {'title': 'Employee Self Services', 'target': ''},
     {'title': 'Settings', 'target': ''},
   ];
+  final user_data = [
+    'Name : JordanX',
+    'Emp.ID : XXX',
+    'Email : jorxxx@gm.com',
+    'Profile : Developer',
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,32 +49,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   width: width_main * .6,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Txt(
-                        'Name : JordanX',
+                    children: List.generate(4, (index) {
+                      return Txt(
+                        user_data[index],
                         size: AppSizes.titleMedium(context),
                         font: Font.light,
+                        height: 0,
                         max: 1,
-                      ),
-                      Txt(
-                        'Emp.ID : XXX',
-                        size: AppSizes.titleMedium(context),
-                        font: Font.light,
-                        max: 1,
-                      ),
-                      Txt(
-                        'Email : jorxxx@gm.com',
-                        size: AppSizes.titleMedium(context),
-                        font: Font.light,
-                        max: 1,
-                      ),
-                      Txt(
-                        'Profile : Developer',
-                        size: AppSizes.titleMedium(context),
-                        font: Font.light,
-                        max: 1,
-                      ),
-                    ],
+                      );
+                    }),
                   ),
                 ),
                 CircleAvatar(

@@ -3,6 +3,7 @@ import 'package:payroll_hr/app.dart';
 import 'package:payroll_hr/core/constants/colors.dart';
 import 'package:payroll_hr/core/constants/images.dart';
 import 'package:payroll_hr/core/constants/sizes.dart';
+import 'package:payroll_hr/widgets/custom_dropdown.dart';
 import 'package:payroll_hr/widgets/txtfield_widget.dart';
 
 class PayrollScreen extends StatefulWidget {
@@ -14,25 +15,9 @@ class PayrollScreen extends StatefulWidget {
 
 class _PayrollScreenState extends State<PayrollScreen> {
   int _selectedYear = DateTime.now().year;
-  int _selectedYear2 = DateTime.now().year;
-  final List<int> _years = List.generate(10, (i) => DateTime.now().year - 5 + i);
+  final List<String> _years = List.generate(10, (i) => (DateTime.now().year - 5 + i).toString());
   String _periodType = 'Monthly';
   final List<String> _periodTypes = ['Monthly', 'Yearly'];
-  int _selectedMonthIndex = DateTime.now().month - 1;
-  final List<String> months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ];
 
   final ScrollController _scrollController = ScrollController();
   double _scrollOffset = 0.0;
@@ -47,29 +32,28 @@ class _PayrollScreenState extends State<PayrollScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // Year 1 selector
-              DropdownButton<int>(
-                value: _selectedYear2,
-                items: _years.map((int year) {
-                  return DropdownMenuItem<int>(value: year, child: Text(year.toString()));
-                }).toList(),
-                onChanged: (int? newValue) {
-                  setState(() {
-                    _selectedYear2 = newValue!;
-                  });
-                },
+              CustomDropdown(
+                items: _years,
+                buttonBorderRadius: displaysize.height / 2,
+                dropdownBorderRadius: 15,
+                buttonHeight: height_main * .06,
+                buttonWidth: width_main * .3,
+                dropdownHeight: 250,
+                borderColor: Colors.black,
+                selectedColor: Theme.of(context).colorScheme.primary,
+                defaultValue: _selectedYear.toString(),
               ),
-              // Period type selector
-              DropdownButton<String>(
-                value: _periodType,
-                items: _periodTypes.map((String type) {
-                  return DropdownMenuItem<String>(value: type, child: Text(type));
-                }).toList(),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    _periodType = newValue!;
-                  });
-                },
+
+              CustomDropdown(
+                items: _periodTypes,
+                buttonBorderRadius: displaysize.height / 2,
+                dropdownBorderRadius: 15,
+                buttonHeight: height_main * .06,
+                buttonWidth: width_main * .35,
+                dropdownHeight: 250,
+                borderColor: Colors.black,
+                selectedColor: Theme.of(context).colorScheme.primary,
+                defaultValue: _periodType,
               ),
             ],
           ),
@@ -88,34 +72,34 @@ class _PayrollScreenState extends State<PayrollScreen> {
                       }
                       return false;
                     },
-                    child: ListView.builder(
-                      controller: _scrollController,
-                      itemCount: months.length,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _selectedMonthIndex = index;
-                            });
-                          },
-                          child: Container(
-                            height: height_main * .1,
-                            margin: EdgeInsets.symmetric(vertical: height_main * .01),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                              color: Theme.of(context).colorScheme.primaryContainer,
+                    child: MediaQuery.removePadding(
+                      context: context,
+                      removeTop: true,
+                      child: ListView.builder(
+                        controller: _scrollController,
+                        itemCount: months.length,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {},
+                            child: Container(
+                              height: height_main * .1,
+                              margin: EdgeInsets.symmetric(vertical: height_main * .01),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                color: Theme.of(context).colorScheme.primaryContainer,
+                              ),
+                              padding: EdgeInsets.symmetric(horizontal: width_main * .04),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Txt(months[index], size: AppSizes.titleMedium(context)),
+                                  txtfieldicon(context, Appicons.right_arrow, color: Colors.black),
+                                ],
+                              ),
                             ),
-                            padding: EdgeInsets.symmetric(horizontal: width_main * .04),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Txt(months[index], size: AppSizes.titleMedium(context)),
-                                txtfieldicon(context, Appicons.right_arrow, color: Colors.black),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ),
