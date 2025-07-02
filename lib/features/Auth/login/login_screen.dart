@@ -9,7 +9,8 @@ import 'package:payroll_hr/widgets/txtfield_widget.dart';
 class LoginScreen extends StatefulWidget {
   final RxBool forgotpassword;
   final VoidCallback? onForgotPassword;
-  const LoginScreen({super.key, required this.forgotpassword, this.onForgotPassword});
+  final VoidCallback? onBack;
+  const LoginScreen({super.key, required this.forgotpassword, this.onForgotPassword, this.onBack});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -33,7 +34,9 @@ class _LoginScreenState extends State<LoginScreen> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Txt('Login', size: AppSizes.displaySmall(context), font: Font.medium, height: .8),
+        Center(
+          child: Txt('Login', size: AppSizes.displaySmall(context), font: Font.medium, height: .8),
+        ),
         Column(
           children: [
             txtfield(hintText: "Emp.ID / Email", controller: _emailController),

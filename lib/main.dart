@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:payroll_hr/app.dart';
-import 'package:payroll_hr/features/Auth/auth_layout.dart';
+import 'package:payroll_hr/features/Auth/auth_screen.dart';
 import 'package:window_size/window_size.dart';
 import 'dart:io';
 

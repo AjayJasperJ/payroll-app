@@ -8,7 +8,8 @@ import 'package:payroll_hr/widgets/txtfield_widget.dart';
 
 class ResetScreen extends StatefulWidget {
   final VoidCallback? onSubmit;
-  const ResetScreen({super.key, this.onSubmit});
+  final VoidCallback? onBack;
+  const ResetScreen({super.key, this.onSubmit, this.onBack});
 
   @override
   State<ResetScreen> createState() => _ResetScreenState();
@@ -31,7 +32,7 @@ class _ResetScreenState extends State<ResetScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               GestureDetector(
-                onTap: () {},
+                onTap: widget.onBack,
                 child: Container(
                   color: Colors.transparent,
                   height: displaysize.height * .04,
@@ -63,18 +64,25 @@ class _ResetScreenState extends State<ResetScreen> {
           ),
           txtfield(hintText: "New Password"),
           Center(
-            child: SizedBox(
-              height: displaysize.height * .055,
-              child: ElevatedButton(
-                style: Bstyle.elevated_filled_apptheme(context),
-                onPressed: widget.onSubmit ?? () {},
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: displaysize.width * .04),
-                  child: Txt(
-                    "Submit",
-                    font: Font.bold,
-                    size: AppSizes.titleLarge(context),
-                    color: theme.colorScheme.onPrimary,
+            child: Dismissible(
+              key: const ValueKey('reset_swipe'),
+              direction: DismissDirection.up,
+              onDismissed: (_) {
+                if (widget.onSubmit != null) widget.onSubmit!();
+              },
+              child: SizedBox(
+                height: displaysize.height * .055,
+                child: ElevatedButton(
+                  style: Bstyle.elevated_filled_apptheme(context),
+                  onPressed: widget.onSubmit ?? () {},
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: displaysize.width * .04),
+                    child: Txt(
+                      "Submit",
+                      font: Font.bold,
+                      size: AppSizes.titleLarge(context),
+                      color: theme.colorScheme.onPrimary,
+                    ),
                   ),
                 ),
               ),

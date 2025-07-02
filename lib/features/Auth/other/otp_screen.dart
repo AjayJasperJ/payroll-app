@@ -7,7 +7,8 @@ import 'package:payroll_hr/widgets/txtfield_widget.dart';
 
 class OtpScreen extends StatefulWidget {
   final VoidCallback? onSwipe;
-  const OtpScreen({super.key, this.onSwipe});
+  final VoidCallback? onBack;
+  const OtpScreen({super.key, this.onSwipe, this.onBack});
 
   @override
   State<OtpScreen> createState() => _OtpScreenState();
@@ -31,7 +32,7 @@ class _OtpScreenState extends State<OtpScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               GestureDetector(
-                onTap: () {},
+                onTap: widget.onBack,
                 child: Container(
                   color: Colors.transparent,
                   height: displaysize.height * .04,
