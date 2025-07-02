@@ -7,9 +7,9 @@ import 'package:payroll_hr/widgets/buttonstyle_widget.dart';
 import 'package:payroll_hr/widgets/txtfield_widget.dart';
 
 class LoginScreen extends StatefulWidget {
-  final forgotpassword;
-
-  const LoginScreen({super.key, required this.forgotpassword});
+  final RxBool forgotpassword;
+  final VoidCallback? onForgotPassword;
+  const LoginScreen({super.key, required this.forgotpassword, this.onForgotPassword});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -17,6 +17,16 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   RxBool password_hide = true.obs;
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -26,12 +36,13 @@ class _LoginScreenState extends State<LoginScreen> {
         Txt('Login', size: AppSizes.displaySmall(context), font: Font.medium, height: .8),
         Column(
           children: [
-            txtfield(hintText: "Emp.ID / Email"),
+            txtfield(hintText: "Emp.ID / Email", controller: _emailController),
             SizedBox(height: displaysize.height * .02),
             Obx(
               () => txtfield(
                 hintText: "Password",
                 hidepass: password_hide.value,
+                controller: _passwordController,
                 suffixIcon: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -65,6 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 borderRadius: BorderRadius.circular(displaysize.width * .03),
                 hoverColor: theme.colorScheme.secondary.withOpacity(0.2),
                 splashColor: theme.colorScheme.secondary.withOpacity(0.3),
+                onTap: widget.onForgotPassword,
                 child: Container(
                   height: displaysize.height * .055,
                   width: displaysize.width * .35,

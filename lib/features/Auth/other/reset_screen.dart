@@ -7,7 +7,8 @@ import 'package:payroll_hr/widgets/buttonstyle_widget.dart';
 import 'package:payroll_hr/widgets/txtfield_widget.dart';
 
 class ResetScreen extends StatefulWidget {
-  const ResetScreen({super.key});
+  final VoidCallback? onSubmit;
+  const ResetScreen({super.key, this.onSubmit});
 
   @override
   State<ResetScreen> createState() => _ResetScreenState();
@@ -66,7 +67,7 @@ class _ResetScreenState extends State<ResetScreen> {
               height: displaysize.height * .055,
               child: ElevatedButton(
                 style: Bstyle.elevated_filled_apptheme(context),
-                onPressed: () {},
+                onPressed: widget.onSubmit ?? () {},
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: displaysize.width * .04),
                   child: Txt(

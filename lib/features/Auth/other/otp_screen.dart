@@ -6,7 +6,8 @@ import 'package:payroll_hr/widgets/swipetoaction_widget.dart';
 import 'package:payroll_hr/widgets/txtfield_widget.dart';
 
 class OtpScreen extends StatefulWidget {
-  const OtpScreen({super.key});
+  final VoidCallback? onSwipe;
+  const OtpScreen({super.key, this.onSwipe});
 
   @override
   State<OtpScreen> createState() => _OtpScreenState();
@@ -95,7 +96,7 @@ class _OtpScreenState extends State<OtpScreen> {
           SizedBox(),
           Center(
             child: SwipeToActionWidget(
-              onSwipe: () {},
+              onSwipe: widget.onSwipe ?? () {},
               label1: 'Swipe to Confirm',
               label2: 'Verified',
               width: displaysize.width * .55,

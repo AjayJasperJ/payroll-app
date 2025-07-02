@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:payroll_hr/app.dart';
-import 'package:payroll_hr/features/Navigation/home/home_screen.dart';
 
 class AuthWidget {
   static Path rectanglecirclebottom(Size size) {
@@ -135,7 +133,6 @@ class _SlidableCurtainWidget extends StatefulWidget {
 class __SlidableCurtainWidgetState extends State<_SlidableCurtainWidget>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
-  final bool _showDemoScreen = false;
   double _opacity = 1.0;
   bool _hasCalledFullyExpanded = false;
 

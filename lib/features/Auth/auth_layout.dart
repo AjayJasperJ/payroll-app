@@ -8,6 +8,8 @@ import 'package:payroll_hr/core/constants/images.dart';
 import 'package:payroll_hr/core/constants/sizes.dart';
 import 'package:payroll_hr/features/Auth/auth_widget.dart';
 import 'package:payroll_hr/features/Auth/login/login_screen.dart';
+import 'package:payroll_hr/features/Auth/other/otp_screen.dart';
+import 'package:payroll_hr/features/Auth/other/reset_screen.dart';
 import 'package:payroll_hr/features/Navigation/navigation_screen.dart';
 import 'package:payroll_hr/widgets/txtfield_widget.dart';
 
@@ -24,6 +26,8 @@ class _AuthLayoutState extends State<AuthLayout> {
   final RxBool _forgotpassword = true.obs;
   final RxBool _newpassword = false.obs;
   final RxBool _newPasswordFadeIn = false.obs;
+  final Rx<Widget> _containerContent = Rx<Widget>(const SizedBox.shrink());
+  final Duration _fadeDuration = const Duration(milliseconds: 400);
 
   void _onCurtainFullyExpanded() {
     _hideStackContent.value = true;
@@ -32,6 +36,15 @@ class _AuthLayoutState extends State<AuthLayout> {
         _showDemoScreen.value = true;
       }
     });
+  }
+
+  void _showWithFade(Widget newChild) async {
+    _containerContent.value = AnimatedSwitcher(
+      duration: _fadeDuration,
+      child: SizedBox.shrink(key: UniqueKey()),
+    );
+    await Future.delayed(_fadeDuration);
+    _containerContent.value = AnimatedSwitcher(duration: _fadeDuration, child: newChild);
   }
 
   @override
@@ -59,6 +72,34 @@ class _AuthLayoutState extends State<AuthLayout> {
         _newPasswordFadeIn.value = false;
       }
     });
+    // Initial content is LoginScreen
+    _containerContent.value = _buildLoginScreen();
+  }
+
+  Widget _buildLoginScreen() {
+    return LoginScreen(
+      forgotpassword: _forgotpassword,
+      onForgotPassword: () {
+        _showWithFade(_buildOtpScreen());
+      },
+    );
+  }
+
+  Widget _buildOtpScreen() {
+    return OtpScreen(
+      onSwipe: () {
+        _showWithFade(_buildResetScreen());
+      },
+    );
+  }
+
+  Widget _buildResetScreen() {
+    return ResetScreen(
+      onSubmit: () {
+        // You can add logic here for after reset
+        _showWithFade(_buildLoginScreen());
+      },
+    );
   }
 
   @override
@@ -81,9 +122,9 @@ class _AuthLayoutState extends State<AuthLayout> {
                             ),
                             SizedBox(height: constraints.maxHeight * .04),
                             Container(
-                              height: !_forgotpassword.value
-                                  ? constraints.maxHeight * .5
-                                  : constraints.maxHeight * .45,
+                              height: _forgotpassword.value
+                                  ? constraints.maxHeight * .45
+                                  : constraints.maxHeight * .5,
                               width: constraints.maxWidth * .82,
                               padding: EdgeInsets.symmetric(
                                 vertical: constraints.maxHeight * .01,
@@ -93,7 +134,12 @@ class _AuthLayoutState extends State<AuthLayout> {
                                 color: AppColors.container,
                                 borderRadius: BorderRadius.circular(15),
                               ),
-                              child: LoginScreen(forgotpassword: _forgotpassword),
+                              child: Obx(
+                                () => AnimatedSwitcher(
+                                  duration: _fadeDuration,
+                                  child: _containerContent.value,
+                                ),
+                              ),
                             ),
                           ],
                         )
