@@ -3,22 +3,27 @@ import 'package:flutter/material.dart';
 import 'package:payroll_hr/app.dart';
 import 'package:payroll_hr/core/constants/images.dart';
 import 'package:payroll_hr/core/constants/sizes.dart';
+import 'package:payroll_hr/features/Navigation/Account/Applications/application_screen.dart';
+import 'package:payroll_hr/features/Navigation/Account/Attendance/attendance_screen.dart';
+import 'package:payroll_hr/features/Navigation/Account/Employee%20%20self%20service/employee_selfservice_screen.dart';
+import 'package:payroll_hr/features/Navigation/Account/Payrolls/payroll_screen.dart';
+import 'package:payroll_hr/features/Navigation/Account/settings/settings_screen.dart';
 import 'package:payroll_hr/widgets/txtfield_widget.dart';
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+class AccountScreen extends StatefulWidget {
+  const AccountScreen({super.key});
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  State<AccountScreen> createState() => _AccountScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _AccountScreenState extends State<AccountScreen> {
   final profile_fielddata = [
-    {'title': 'Applications', 'target': ''},
-    {'title': 'Payrolls', 'target': ''},
-    {'title': 'Attendance', 'target': ''},
-    {'title': 'Employee Self Services', 'target': ''},
-    {'title': 'Settings', 'target': ''},
+    {'title': 'Applications', 'target': ApplicationScreen()},
+    {'title': 'Payrolls', 'target': PayrollScreen()},
+    {'title': 'Attendance', 'target': AttendanceScreen()},
+    {'title': 'Employee Self Services', 'target': EmployeeSelfserviceScreen()},
+    {'title': 'Settings', 'target': SettingsScreen()},
   ];
   final user_data = [
     'Name : JordanX',
@@ -83,7 +88,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Txt(field['title']!, size: AppSizes.titleMedium(context)),
+                    Txt(field['title'].toString(), size: AppSizes.titleMedium(context)),
                     txtfieldicon(context, Appicons.right_arrow, color: Colors.black),
                   ],
                 ),

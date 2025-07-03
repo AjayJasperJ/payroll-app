@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:payroll_hr/app.dart';
 import 'package:payroll_hr/core/constants/colors.dart';
 import 'package:payroll_hr/core/constants/images.dart';
-import 'package:payroll_hr/features/Navigation/home/home_screen.dart';
-import 'package:payroll_hr/features/Navigation/message/message_screen.dart';
+import 'package:payroll_hr/features/Navigation/Home/home_screen.dart';
+import 'package:payroll_hr/features/Navigation/Message/message_screen.dart';
 import 'package:payroll_hr/features/Navigation/navigation_widget.dart';
-import 'package:payroll_hr/features/Navigation/profile/attendance/attendance_screen.dart';
-import 'package:payroll_hr/features/Navigation/profile/payrolls/payroll_screen.dart';
-import 'package:payroll_hr/features/Navigation/profile/profile_screen.dart';
-import 'package:payroll_hr/features/Navigation/profile/settings/notification_screen.dart';
+import 'package:payroll_hr/features/Navigation/Account/Attendance/attendance_screen.dart';
+import 'package:payroll_hr/features/Navigation/Account/Payrolls/payroll_screen.dart';
+import 'package:payroll_hr/features/Navigation/Account/account_screen.dart';
+import 'package:payroll_hr/features/Navigation/Account/settings/Notifications/notification_screen.dart';
+import 'package:payroll_hr/features/Navigation/Account/settings/settings_screen.dart';
 import 'package:payroll_hr/widgets/buttonstyle_widget.dart';
 import 'package:payroll_hr/widgets/txtfield_widget.dart';
 
@@ -73,14 +74,15 @@ class _NavigationScreenState extends State<NavigationScreen> with TickerProvider
     }
   }
 
-  final pages = [
-    HomeScreen(),
-    MessageScreen(),
-    ProfileScreen(),
-    NotificationScreen(),
-    AttendanceScreen(),
-    PayrollScreen(),
-  ];
+  void CurrentPageInLayout({required dynamic targetpage}) {
+    setState(() {
+      currentpage = targetpage;
+    });
+  }
+
+  dynamic currentpage = SettingsScreen();
+
+  final pages = [HomeScreen(), MessageScreen(), AccountScreen()];
   @override
   Widget build(BuildContext context) {
     final notificationbar_height = displaysize.height * .04;
@@ -205,7 +207,7 @@ class _NavigationScreenState extends State<NavigationScreen> with TickerProvider
                                   borderRadius: BorderRadius.circular(20),
                                   color: Colors.white,
                                 ),
-                                child: pages[current_index],
+                                child: currentpage,
                               ),
                             ),
                           ],

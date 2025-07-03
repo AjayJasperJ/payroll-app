@@ -6,9 +6,9 @@ import 'package:payroll_hr/core/constants/colors.dart';
 import 'package:payroll_hr/core/constants/images.dart';
 import 'package:payroll_hr/core/constants/sizes.dart';
 import 'package:payroll_hr/features/Auth/auth_widget.dart';
-import 'package:payroll_hr/features/Auth/login/login_screen.dart';
-import 'package:payroll_hr/features/Auth/other/otp_screen.dart';
-import 'package:payroll_hr/features/Auth/other/reset_screen.dart';
+import 'package:payroll_hr/features/Auth/Login/login_screen.dart';
+import 'package:payroll_hr/features/Auth/Other/otp_screen.dart';
+import 'package:payroll_hr/features/Auth/Other/reset_screen.dart';
 import 'package:payroll_hr/features/Navigation/navigation_screen.dart';
 import 'package:payroll_hr/widgets/txtfield_widget.dart';
 
