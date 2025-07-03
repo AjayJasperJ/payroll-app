@@ -1,3 +1,4 @@
+//Perfect
 import 'package:flutter/material.dart';
 import 'package:payroll_hr/app.dart';
 import 'package:payroll_hr/core/constants/images.dart';
@@ -72,7 +73,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             children: List.generate(profile_fielddata.length, (index) {
               final field = profile_fielddata[index];
               return Container(
-                height: height_main * .1,
+                height: height_main * .09,
                 margin: EdgeInsets.only(top: height_main * .01),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),

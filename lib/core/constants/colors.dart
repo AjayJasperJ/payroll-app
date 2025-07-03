@@ -7,10 +7,7 @@ class AppColors {
   //container,card,cirlcavatar etc
   static const inputcolor = Color.fromRGBO(240, 249, 255, 1); //textformfiled
   static const gradentbackground = LinearGradient(
-    colors: [
-      Color.fromRGBO(219, 230, 255, 1),
-      Color.fromRGBO(241, 245, 249, 1),
-    ],
+    colors: [Color.fromRGBO(219, 230, 255, 1), Color.fromRGBO(241, 245, 249, 1)],
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
   );

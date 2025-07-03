@@ -395,3 +395,23 @@ txtfieldicon(context, String imagepath, {Color? color}) {
     ),
   );
 }
+
+CustomTxtField() {
+  return TextField(
+    decoration: InputDecoration(
+      isDense: true,
+      contentPadding: EdgeInsets.symmetric(vertical: displaysize.height * 0.013, horizontal: 16),
+      hintText: 'Search',
+      fillColor: Colors.black.withValues(alpha: .05),
+      filled: true,
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(displaysize.height),
+        borderSide: BorderSide(color: Colors.black, width: 1.5),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(displaysize.height),
+        borderSide: BorderSide(color: Colors.black, width: 1.5),
+      ),
+    ),
+  );
+}

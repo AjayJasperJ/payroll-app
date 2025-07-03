@@ -1,3 +1,4 @@
+//Perfect
 import 'package:flutter/material.dart';
 import 'package:payroll_hr/app.dart';
 import 'package:payroll_hr/core/constants/images.dart';
@@ -166,7 +167,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
     final int firstWeekday = DateTime(year, monthIndex, 1).weekday;
     const List<String> weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     List<Widget> dayWidgets = [];
-    int dayCounter = 1;
+    // int dayCounter = 1;
     for (int week = 0; week < 6; week++) {
       List<Widget> weekRow = [];
       for (int wd = 1; wd <= 7; wd++) {
