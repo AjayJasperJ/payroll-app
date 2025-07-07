@@ -7,7 +7,8 @@ import 'package:payroll_hr/features/Navigation/Account/Applications/application_
 import 'package:payroll_hr/features/Navigation/Account/Attendance/attendance_screen.dart';
 import 'package:payroll_hr/features/Navigation/Account/Employee%20%20self%20service/employee_selfservice_screen.dart';
 import 'package:payroll_hr/features/Navigation/Account/Payrolls/payroll_screen.dart';
-import 'package:payroll_hr/features/Navigation/Account/settings/settings_screen.dart';
+import 'package:payroll_hr/features/Navigation/Account/Settings/settings_screen.dart';
+import 'package:payroll_hr/features/Navigation/navigation_screen.dart';
 import 'package:payroll_hr/widgets/txtfield_widget.dart';
 
 class AccountScreen extends StatefulWidget {
@@ -77,20 +78,25 @@ class _AccountScreenState extends State<AccountScreen> {
           Column(
             children: List.generate(profile_fielddata.length, (index) {
               final field = profile_fielddata[index];
-              return Container(
-                height: height_main * .09,
-                margin: EdgeInsets.only(top: height_main * .01),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  color: Theme.of(context).colorScheme.primaryContainer,
-                ),
-                padding: EdgeInsets.symmetric(horizontal: width_main * .04),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Txt(field['title'].toString(), size: AppSizes.titleMedium(context)),
-                    txtfieldicon(context, Appicons.right_arrow, color: Colors.black),
-                  ],
+              return GestureDetector(
+                onTap: () {
+                  NavigationScreen.of(context)?.CurrentPageInLayout(targetpage: field['target']);
+                },
+                child: Container(
+                  height: height_main * .09,
+                  margin: EdgeInsets.only(top: height_main * .01),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    color: Theme.of(context).colorScheme.primaryContainer,
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal: width_main * .04),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Txt(field['title'].toString(), size: AppSizes.titleMedium(context)),
+                      txtfieldicon(context, Appicons.right_arrow, color: Colors.black),
+                    ],
+                  ),
                 ),
               );
             }),
