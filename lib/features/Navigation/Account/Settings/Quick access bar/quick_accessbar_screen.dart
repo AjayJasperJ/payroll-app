@@ -10,6 +10,6 @@ class QuickbarScreen extends StatefulWidget {
 class _QuickbarScreenState extends State<QuickbarScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(body: Column(children: []));
   }
 }

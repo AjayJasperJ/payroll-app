@@ -50,7 +50,7 @@ class ExpandableCard extends StatelessWidget {
             height: expanded ? maxExpandHeight : normalHeight,
             decoration: BoxDecoration(
               color: backgroundColor,
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(15),
             ),
             child: Stack(
               alignment: Alignment.topCenter,
@@ -62,7 +62,7 @@ class ExpandableCard extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Txt(title, size: AppSizes.titleLarge(context)),
+                      Txt(title, size: AppSizes.titleMedium(context)),
                       Image.asset(Appicons.edit, height: displaysize.height * .025),
                     ],
                   ),

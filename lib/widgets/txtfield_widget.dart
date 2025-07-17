@@ -172,7 +172,7 @@ class _txtfieldState extends State<txtfield> {
       keyboardType: widget.keyboardtype,
       decoration: InputDecoration(
         isDense: true, // Reduce vertical height
-        contentPadding: EdgeInsets.symmetric(vertical: displaysize.height * 0.012, horizontal: 16),
+        contentPadding: EdgeInsets.symmetric(vertical: displaysize.height * 0.005, horizontal: 16),
         fillColor: Theme.of(context).colorScheme.secondary,
         filled: true,
         suffixIcon: widget.suffixIcon,

@@ -64,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       font: Font.medium,
                     ),
                     Txt(
-                      '${DateTime.now().hour}:${DateTime.now().minute}',
+                      '${DateTime.now().hour}:${DateTime.now().minute.toString().padLeft(2, '0')}',
                       size: AppSizes.labelLarge(context),
                       font: Font.medium,
                     ),

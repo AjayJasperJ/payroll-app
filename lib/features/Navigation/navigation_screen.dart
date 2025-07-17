@@ -31,6 +31,7 @@ class _NavigationScreenState extends State<NavigationScreen> with TickerProvider
   void update_index(int index) {
     setState(() {
       current_index = index;
+      pushPage(pages[index]);
     });
   }
 
@@ -39,6 +40,10 @@ class _NavigationScreenState extends State<NavigationScreen> with TickerProvider
   late AnimationController _sidebarController;
   late Animation<double> _sidebarWidthAnim;
   late AnimationController _controller;
+
+  // Stack for navigation history
+  final List<dynamic> pageStack = [];
+  final pages = [HomeScreen(), MessageScreen(), AccountScreen()];
 
   @override
   void initState() {
@@ -52,6 +57,8 @@ class _NavigationScreenState extends State<NavigationScreen> with TickerProvider
       begin: displaysize.width * .2 - displaysize.height * .01,
       end: displaysize.width * .65,
     ).animate(CurvedAnimation(parent: _sidebarController, curve: Curves.easeInOut));
+    // Initialize stack with default page
+    pageStack.add(HomeScreen());
   }
 
   @override
@@ -75,233 +82,276 @@ class _NavigationScreenState extends State<NavigationScreen> with TickerProvider
     }
   }
 
-  void CurrentPageInLayout({required dynamic targetpage}) {
+  void pushPage(dynamic page) {
     setState(() {
-      currentpage = targetpage;
-      if (pages.contains(targetpage)) {
-        current_index = pages.indexOf(targetpage);
+      final idx = pageStack.indexWhere((e) => e.runtimeType == page.runtimeType);
+      if (idx != -1) {
+        // Remove all pages above the found index
+        pageStack.removeRange(idx + 1, pageStack.length);
       } else {
-        current_index = -1;
+        pageStack.add(page);
       }
+      print(
+        'Stack after push: ' + pageStack.map((e) => e.runtimeType.toString()).toList().toString(),
+      );
     });
   }
 
-  dynamic currentpage = ProfileScreen();
-  final pages = [HomeScreen(), MessageScreen(), AccountScreen()];
+  Future<bool> _onWillPop() async {
+    if (pageStack.length > 1) {
+      setState(() {
+        pageStack.removeLast();
+        print(
+          'Stack after pop: ' + pageStack.map((e) => e.runtimeType.toString()).toList().toString(),
+        );
+      });
+      return false;
+    }
+    return true;
+  }
+
+  void CurrentPageInLayout({required dynamic targetpage}) {
+    pushPage(targetpage);
+    if (pages.any((p) => p.runtimeType == targetpage.runtimeType)) {
+      setState(() {
+        current_index = pages.indexWhere((p) => p.runtimeType == targetpage.runtimeType);
+      });
+    } else {
+      setState(() {
+        current_index = -1;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final notificationbar_height = displaysize.height * .04;
-    return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(gradient: AppColors.gradentbackground),
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            height_main = constraints.maxHeight * .82 - notificationbar_height;
-            width_main = constraints.maxWidth * .8;
-            return Stack(
-              children: [
-                Column(
-                  children: [
-                    SizedBox(height: notificationbar_height),
-                    Row(
-                      children: [
-                        ConstrainedBox(
-                          /* Sidebar */
-                          constraints: BoxConstraints(
-                            minHeight: constraints.maxHeight * .9 - notificationbar_height,
-                            minWidth: constraints.maxWidth * .2,
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: Container(
+          decoration: BoxDecoration(gradient: AppColors.gradentbackground),
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              height_main = constraints.maxHeight * .82 - notificationbar_height;
+              width_main = constraints.maxWidth * .8;
+              return Stack(
+                children: [
+                  Column(
+                    children: [
+                      SizedBox(height: notificationbar_height),
+                      Row(
+                        children: [
+                          ConstrainedBox(
+                            /* Sidebar */
+                            constraints: BoxConstraints(
+                              minHeight: constraints.maxHeight * .9 - notificationbar_height,
+                              minWidth: constraints.maxWidth * .2,
+                            ),
                           ),
-                        ),
-                        Column(
-                          children: [
-                            Row(
-                              children: [
-                                ConstrainedBox(
-                                  /* Generate Button */
-                                  constraints: BoxConstraints(
-                                    minHeight: constraints.maxHeight * .08,
-                                    minWidth: constraints.maxWidth * .4,
-                                  ),
-                                  child: Container(
-                                    margin: EdgeInsets.only(
-                                      top: constraints.maxHeight * .01,
-                                      left: constraints.maxHeight * .01,
-                                      right: constraints.maxHeight * .005,
+                          Column(
+                            children: [
+                              Row(
+                                children: [
+                                  ConstrainedBox(
+                                    /* Generate Button */
+                                    constraints: BoxConstraints(
+                                      minHeight: constraints.maxHeight * .08,
+                                      minWidth: constraints.maxWidth * .4,
                                     ),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(15),
-                                      color: Colors.black,
-                                    ),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(
-                                        15,
-                                      ), // match container radius
-                                      child: AnimatedBuilder(
-                                        animation: _controller,
-                                        builder: (context, child) {
-                                          return CustomPaint(
-                                            painter: LighthousePainter(_controller.value),
-                                            child: Center(
-                                              child: Column(
-                                                children: [
-                                                  Image.asset(
-                                                    Appimages.generate,
-                                                    height: displaysize.height * .035,
-                                                  ),
-                                                  SizedBox(height: displaysize.height * .01),
-                                                ],
+                                    child: Container(
+                                      margin: EdgeInsets.only(
+                                        top: constraints.maxHeight * .01,
+                                        left: constraints.maxHeight * .01,
+                                        right: constraints.maxHeight * .005,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(15),
+                                        color: Colors.black,
+                                      ),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(
+                                          15,
+                                        ), // match container radius
+                                        child: AnimatedBuilder(
+                                          animation: _controller,
+                                          builder: (context, child) {
+                                            return CustomPaint(
+                                              painter: LighthousePainter(_controller.value),
+                                              child: Center(
+                                                child: Column(
+                                                  children: [
+                                                    Image.asset(
+                                                      Appimages.generate,
+                                                      height: displaysize.height * .035,
+                                                    ),
+                                                    SizedBox(height: displaysize.height * .01),
+                                                  ],
+                                                ),
                                               ),
-                                            ),
-                                          );
-                                        },
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  ConstrainedBox(
+                                    /* Profile Button */
+                                    constraints: BoxConstraints(
+                                      minHeight: constraints.maxHeight * .08,
+                                      minWidth: constraints.maxWidth * .4,
+                                    ),
+                                    child: Container(
+                                      margin: EdgeInsets.only(
+                                        top: constraints.maxHeight * .01,
+                                        right: constraints.maxHeight * .01,
+                                        left: constraints.maxHeight * .005,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(15),
+                                        color: Colors.white,
+                                      ),
+                                      padding: EdgeInsets.only(
+                                        right: constraints.maxWidth * .01,
+                                        left: constraints.maxWidth * .05,
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Txt('XXX'),
+                                          CircleAvatar(
+                                            backgroundImage: AssetImage(Appimages.profile),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              ConstrainedBox(
+                                /* Main Container UI */
+                                constraints: BoxConstraints(
+                                  minWidth: constraints.maxWidth * .8,
+                                  minHeight: constraints.maxHeight * .82 - notificationbar_height,
+                                ),
+                                child: Container(
+                                  height: height_main - constraints.maxHeight * .02,
+                                  width: width_main - constraints.maxHeight * .02,
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: width_main * .030,
+                                    vertical: height_main * .015,
+                                  ),
+                                  margin: EdgeInsets.symmetric(
+                                    horizontal: constraints.maxHeight * .01,
+                                    vertical: constraints.maxHeight * .01,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: Colors.white,
+                                  ),
+                                  child: AnimatedSwitcher(
+                                    duration: const Duration(milliseconds: 600),
+                                    transitionBuilder: (Widget child, Animation<double> animation) {
+                                      final curved = CurvedAnimation(
+                                        parent: animation,
+                                        curve: Curves.easeInOutCubic,
+                                      );
+                                      return FadeTransition(opacity: curved, child: child);
+                                    },
+                                    child: pageStack.isNotEmpty
+                                        ? KeyedSubtree(
+                                            key: ValueKey(pageStack.last.runtimeType),
+                                            child: pageStack.last,
+                                          )
+                                        : Container(),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      ConstrainedBox(
+                        constraints: BoxConstraints(minHeight: constraints.maxHeight * .1),
+                        child: Container(
+                          margin: EdgeInsets.only(
+                            left: constraints.maxHeight * .01,
+                            right: constraints.maxHeight * .01,
+                            bottom: constraints.maxHeight * .01,
+                          ),
+                          padding: EdgeInsets.symmetric(horizontal: constraints.maxWidth * .05),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: Colors.white,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: List.generate(
+                              bottom_fielddata.length,
+                              (index) => InkWell(
+                                child: Card(
+                                  elevation: 0,
+                                  color: current_index == index
+                                      ? AppColors.inputcolor
+                                      : Colors.transparent,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: SizedBox(
+                                      width: displaysize.height * .04,
+                                      height: displaysize.height * .04,
+                                      child: Image.asset(
+                                        bottom_fielddata[index]['icon']!,
+                                        height: displaysize.height * .04,
                                       ),
                                     ),
                                   ),
                                 ),
-                                ConstrainedBox(
-                                  /* Profile Button */
-                                  constraints: BoxConstraints(
-                                    minHeight: constraints.maxHeight * .08,
-                                    minWidth: constraints.maxWidth * .4,
-                                  ),
-                                  child: Container(
-                                    margin: EdgeInsets.only(
-                                      top: constraints.maxHeight * .01,
-                                      right: constraints.maxHeight * .01,
-                                      left: constraints.maxHeight * .005,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(15),
-                                      color: Colors.white,
-                                    ),
-                                    padding: EdgeInsets.only(
-                                      right: constraints.maxWidth * .01,
-                                      left: constraints.maxWidth * .05,
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Txt('XXX'),
-                                        CircleAvatar(
-                                          backgroundImage: AssetImage(Appimages.profile),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            ConstrainedBox(
-                              /* Main Container UI */
-                              constraints: BoxConstraints(
-                                minWidth: constraints.maxWidth * .8,
-                                minHeight: constraints.maxHeight * .82 - notificationbar_height,
+                                onTap: () {
+                                  update_index(index);
+                                },
                               ),
-                              child: Container(
-                                height: height_main - constraints.maxHeight * .02,
-                                width: width_main - constraints.maxHeight * .02,
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: width_main * .030,
-                                  vertical: height_main * .015,
-                                ),
-                                margin: EdgeInsets.symmetric(
-                                  horizontal: constraints.maxHeight * .01,
-                                  vertical: constraints.maxHeight * .01,
-                                ),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: Colors.white,
-                                ),
-                                child: currentpage,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    ConstrainedBox(
-                      constraints: BoxConstraints(minHeight: constraints.maxHeight * .1),
-                      child: Container(
-                        margin: EdgeInsets.only(
-                          left: constraints.maxHeight * .01,
-                          right: constraints.maxHeight * .01,
-                          bottom: constraints.maxHeight * .01,
-                        ),
-                        padding: EdgeInsets.symmetric(horizontal: constraints.maxWidth * .05),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.white,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: List.generate(
-                            bottom_fielddata.length,
-                            (index) => InkWell(
-                              child: Card(
-                                elevation: 0,
-                                color: current_index == index
-                                    ? AppColors.inputcolor
-                                    : Colors.transparent,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: SizedBox(
-                                    width: displaysize.height * .04,
-                                    height: displaysize.height * .04,
-                                    child: Image.asset(
-                                      bottom_fielddata[index]['icon']!,
-                                      height: displaysize.height * .04,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              onTap: () {
-                                setState(() {
-                                  current_index = index;
-                                  currentpage = pages[index];
-                                });
-                              },
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                // Sidebar overlay and button
-                if (_sidebarExpanded)
-                  Positioned.fill(
-                    child: GestureDetector(
-                      behavior: HitTestBehavior.translucent,
-                      onTap: _toggleSidebar,
-                      child: const SizedBox.expand(),
-                    ),
+                    ],
                   ),
-                // Sidebar itself
-                ConstrainedBox(
-                  /* Sidebar */
-                  constraints: BoxConstraints(
-                    minHeight: constraints.maxHeight * .9 - notificationbar_height,
-                    minWidth: constraints.maxWidth * .2,
-                  ),
+                  // Sidebar overlay and button
+                  if (_sidebarExpanded)
+                    Positioned.fill(
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.translucent,
+                        onTap: _toggleSidebar,
+                        child: const SizedBox.expand(),
+                      ),
+                    ),
+                  // Sidebar itself
+                  ConstrainedBox(
+                    /* Sidebar */
+                    constraints: BoxConstraints(
+                      minHeight: constraints.maxHeight * .9 - notificationbar_height,
+                      minWidth: constraints.maxWidth * .2,
+                    ),
 
-                  child: NavigationSidebar(
-                    width: _sidebarWidthAnim.value,
-                    height: constraints.maxHeight * .9 - notificationbar_height,
-                    notificationbarHeight: notificationbar_height,
-                    onToggle: _toggleSidebar,
-                    onIndex: update_index,
-                    constraintsh: constraints.maxHeight,
-                    sidebarWidthAnim: _sidebarWidthAnim,
-                    notificationbar_height: notificationbar_height,
-                    icons: [Appicons.bell, Appicons.calender, Appicons.wealth],
-                    titles: ['Notification', 'Attendance', 'Payrolls'],
-                    selected_index: current_index,
+                    child: NavigationSidebar(
+                      width: _sidebarWidthAnim.value,
+                      height: constraints.maxHeight * .9 - notificationbar_height,
+                      notificationbarHeight: notificationbar_height,
+                      onToggle: _toggleSidebar,
+                      onIndex: update_index,
+                      constraintsh: constraints.maxHeight,
+                      sidebarWidthAnim: _sidebarWidthAnim,
+                      notificationbar_height: notificationbar_height,
+                      icons: [Appicons.bell, Appicons.calender, Appicons.wealth],
+                      titles: ['Notification', 'Attendance', 'Payrolls'],
+                      selected_index: current_index,
+                    ),
                   ),
-                ),
-                // Expand/collapse button
-              ],
-            );
-          },
+                ],
+              );
+            },
+          ),
         ),
       ),
     );
