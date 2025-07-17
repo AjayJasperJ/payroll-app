@@ -15,18 +15,19 @@ class _NotificationScreenState extends State<NotificationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          SizedBox(height: height_main * .02),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              txtfieldicon(context, Appicons.leftArrow, color: Colors.black),
-              Txt('Notification', size: AppSizes.titleLarge(context), font: Font.regular),
-            ],
-          ),
-          SizedBox(height: height_main * .02),
-        ],
+      body:Padding(
+        padding: EdgeInsets.symmetric(vertical: height_main * .02),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                txtfieldicon(context, Appicons.leftArrow, color: Colors.black),
+                Txt('Notification', size: AppSizes.titleLarge(context), font: Font.regular),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

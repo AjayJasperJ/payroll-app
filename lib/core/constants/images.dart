@@ -23,4 +23,7 @@ class Appicons {
   static const String spark = 'assets/icons/spark.png';
   static const String reload = 'assets/icons/reload.png';
   static const String right_arrow = 'assets/icons/right_arrow.png';
+  static const String application = 'assets/icons/application.png';
+  static const String delete = 'assets/icons/delete.png';
+  static const String dragger = 'assets/icons/dragger.png';
 }

@@ -260,7 +260,7 @@ class _NavigationScreenState extends State<NavigationScreen> with TickerProvider
                                       return FadeTransition(opacity: curved, child: child);
                                     },
                                     child: pageStack.isNotEmpty
-                                        ? KeyedSubtree(
+                                        ? SizedBox.expand(
                                             key: ValueKey(pageStack.last.runtimeType),
                                             child: pageStack.last,
                                           )
